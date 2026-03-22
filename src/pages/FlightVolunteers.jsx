@@ -379,7 +379,7 @@ const FlightVolunteers = ({ session }) => {
       </div>
 
       {/* Body: filters sidebar + content */}
-      <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-start' }}>
+      <div className="main-content-grid" style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-start' }}>
         {/* Filter Panel */}
         {showFilters && (
           <div style={{ width: '220px', flexShrink: 0 }}>

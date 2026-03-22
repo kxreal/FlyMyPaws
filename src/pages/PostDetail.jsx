@@ -178,7 +178,7 @@ const PostDetail = () => {
         ← Back to listings
       </button>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: '1.75rem', alignItems: 'flex-start' }}>
+      <div className="main-content-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: '1.75rem', alignItems: 'flex-start' }}>
         {/* ── Left: main content ── */}
         <div>
           {/* Photo gallery */}

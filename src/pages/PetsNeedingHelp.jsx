@@ -253,7 +253,7 @@ const PetsNeedingHelp = ({ session }) => {
       </div>
 
       {/* Layout: filter sidebar + grid */}
-      <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-start' }}>
+      <div className="main-content-grid" style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-start' }}>
         {showFilters && (
           <div style={{ width: '220px', flexShrink: 0 }}>
             <FilterPanel allPosts={allPosts} filters={filters} setFilters={setFilters} onClear={clearFilters} />
