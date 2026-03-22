@@ -4,7 +4,7 @@ import { X, Download, Share2, Copy, Check } from 'lucide-react';
 const ShareModal = ({ post, onClose }) => {
   const canvasRef = useRef(null);
   const [copied, setCopied] = useState(false);
-  const shareUrl = window.location.href;
+  const shareUrl = `${window.location.origin}/post/${post.id}`;
 
   const formatDate = (dateStr) => {
     if (!dateStr) return 'TBD';
