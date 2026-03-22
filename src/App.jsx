@@ -122,48 +122,41 @@ const App = () => {
             <span className="logo-text">FlyMyPaws</span>
           </Link>
 
-          {/* Nav Links - Compact on mobile */}
-          <div className="nav-links-container" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', overflow: 'hidden' }}>
+          {/* Nav Links - Bottom on mobile */}
+          <div className="nav-links-container">
             <NavLink to="/" end className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>
-              <HomeIcon size={18} className="nav-icon" />
+              <HomeIcon size={20} className="nav-icon" />
               <span className="full-text">Home</span>
               <span className="short-text">Home</span>
             </NavLink>
             <NavLink to="/pets" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>
-              <PawPrint size={18} className="nav-icon" />
+              <PawPrint size={20} className="nav-icon" />
               <span className="full-text">Pets Needing Help</span>
               <span className="short-text">Pets</span>
             </NavLink>
             <NavLink to="/volunteers" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>
-              <Plane size={18} className="nav-icon" />
+              <Plane size={20} className="nav-icon" />
               <span className="full-text">Flight Volunteers</span>
               <span className="short-text">Volunteers</span>
             </NavLink>
           </div>
 
           {/* Right Side - Actions */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexShrink: 0 }}>
-            <button
-              onClick={() => setDarkMode(!darkMode)}
-              className="theme-toggle"
-              aria-label="Toggle dark mode"
-            >
-              {darkMode ? <Sun size={18} /> : <Moon size={18} />}
+          <div className="nav-actions">
+            <button onClick={() => setDarkMode(!darkMode)} className="theme-toggle" aria-label="Toggle dark mode">
+              {darkMode ? <Sun size={20} /> : <Moon size={20} />}
             </button>
 
             {session ? (
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <NavLink to="/messages" className="nav-link nav-icon-link" title="Messages">
-                  <MessageCircle size={20} />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                <NavLink to="/messages" className="nav-link nav-icon-only" title="Messages">
+                  <MessageCircle size={22} />
                   {unreadCount > 0 && <span className="unread-badge">{unreadCount > 9 ? '9+' : unreadCount}</span>}
                 </NavLink>
-                <NavLink to="/profile" className="nav-link nav-icon-link" title="Profile">
-                  <User size={20} />
+                <NavLink to="/profile" className="nav-link nav-icon-only" title="Profile">
+                  <User size={22} />
                 </NavLink>
-                <button onClick={handleLogout} className="theme-toggle" title="Logout" style={{ color: 'var(--color-error)' }}>
-                  <LogOut size={20} />
-                </button>
-                <NavLink to="/create-post" className="btn btn-primary btn-sm btn-icon-mobile">
+                <NavLink to="/create-post" className="btn btn-primary btn-sm btn-post-mobile">
                   <span className="btn-text">+ Post</span>
                   <span className="btn-icon">+</span>
                 </NavLink>
