@@ -145,6 +145,13 @@ const AdminCenter = () => {
             onChange={() => toggleSetting('messaging_enabled')}
             loading={settingsLoading.messaging_enabled}
           />
+          <Toggle
+            label="Google Authentication"
+            description="Show/hide the Google login option on the login page"
+            value={settings.google_auth_enabled ?? true}
+            onChange={() => toggleSetting('google_auth_enabled')}
+            loading={settingsLoading.google_auth_enabled}
+          />
         </div>
 
         {/* ── User Management ── */}

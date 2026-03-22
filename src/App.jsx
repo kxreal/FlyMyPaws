@@ -12,7 +12,7 @@ import FlightVolunteers from './pages/FlightVolunteers';
 import PublicProfile from './pages/PublicProfile';
 import PostDetail from './pages/PostDetail';
 import Onboarding from './pages/Onboarding';
-import { Moon, Sun } from 'lucide-react';
+import { Moon, Sun, User, MessageCircle, Home as HomeIcon, PawPrint, Plane, LogOut } from 'lucide-react';
 
 const App = () => {
   const [session, setSession] = useState(null);
@@ -115,73 +115,59 @@ const App = () => {
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       {/* Navigation */}
       <nav className="navbar">
-        <div className="container flex-between" style={{ height: '100%' }}>
-          {/* Logo Wordmark */}
-          <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', textDecoration: 'none' }}>
+        <div className="container" style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem' }}>
+          {/* Logo */}
+          <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', textDecoration: 'none', flexShrink: 0 }}>
             <span style={{ fontSize: '1.4rem', lineHeight: 1 }}>🐾</span>
-            <span style={{
-              fontWeight: 800,
-              fontSize: '1.15rem',
-              letterSpacing: '-0.03em',
-              background: 'linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}>FlyMyPaws</span>
+            <span className="logo-text">FlyMyPaws</span>
           </Link>
 
-          {/* Nav Links */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-            <NavLink to="/" end className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>Home</NavLink>
+          {/* Nav Links - Compact on mobile */}
+          <div className="nav-links-container" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', overflow: 'hidden' }}>
+            <NavLink to="/" end className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>
+              <HomeIcon size={18} className="nav-icon" />
+              <span className="full-text">Home</span>
+              <span className="short-text">Home</span>
+            </NavLink>
             <NavLink to="/pets" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>
+              <PawPrint size={18} className="nav-icon" />
               <span className="full-text">Pets Needing Help</span>
               <span className="short-text">Pets</span>
             </NavLink>
             <NavLink to="/volunteers" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>
+              <Plane size={18} className="nav-icon" />
               <span className="full-text">Flight Volunteers</span>
               <span className="short-text">Volunteers</span>
             </NavLink>
           </div>
 
-          {/* Right Side */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          {/* Right Side - Actions */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexShrink: 0 }}>
             <button
               onClick={() => setDarkMode(!darkMode)}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-text-muted)', padding: '0.4rem', borderRadius: '8px', display: 'flex' }}
+              className="theme-toggle"
               aria-label="Toggle dark mode"
             >
               {darkMode ? <Sun size={18} /> : <Moon size={18} />}
             </button>
 
             {session ? (
-              <>
-                <NavLink to="/messages" className="nav-link" style={{ fontSize: '0.85rem', position: 'relative' }}>
-                  Messages
-                  {unreadCount > 0 && (
-                    <span style={{
-                      position: 'absolute',
-                      top: '-2px',
-                      right: '-6px',
-                      backgroundColor: 'var(--color-primary)',
-                      color: 'white',
-                      borderRadius: '50%',
-                      width: '18px',
-                      height: '18px',
-                      fontSize: '0.7rem',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontWeight: 'bold',
-                      border: '2px solid var(--color-surface)'
-                    }}>
-                      {unreadCount > 9 ? '9+' : unreadCount}
-                    </span>
-                  )}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <NavLink to="/messages" className="nav-link nav-icon-link" title="Messages">
+                  <MessageCircle size={20} />
+                  {unreadCount > 0 && <span className="unread-badge">{unreadCount > 9 ? '9+' : unreadCount}</span>}
                 </NavLink>
-                <NavLink to="/profile" className="nav-link" style={{ fontSize: '0.85rem' }}>Profile</NavLink>
-                <NavLink to="/create-post" className="btn btn-primary btn-sm">+ Post</NavLink>
-                <button onClick={handleLogout} className="btn btn-ghost btn-sm">Logout</button>
-              </>
+                <NavLink to="/profile" className="nav-link nav-icon-link" title="Profile">
+                  <User size={20} />
+                </NavLink>
+                <button onClick={handleLogout} className="theme-toggle" title="Logout" style={{ color: 'var(--color-error)' }}>
+                  <LogOut size={20} />
+                </button>
+                <NavLink to="/create-post" className="btn btn-primary btn-sm btn-icon-mobile">
+                  <span className="btn-text">+ Post</span>
+                  <span className="btn-icon">+</span>
+                </NavLink>
+              </div>
             ) : (
               <Link to="/login" className="btn btn-primary btn-sm">Sign In</Link>
             )}
