@@ -108,6 +108,7 @@ const ShareModal = ({ post, onClose }) => {
   const shareOptions = [
     { name: 'WhatsApp', icon: 'https://www.vectorlogo.zone/logos/whatsapp/whatsapp-icon.svg', url: `https://wa.me/?text=${encodeURIComponent(`Help this pet find a flight buddy! ${shareUrl}`)}` },
     { name: 'Facebook', icon: 'https://www.vectorlogo.zone/logos/facebook/facebook-official.svg', url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}` },
+    { name: 'Telegram', icon: 'https://www.vectorlogo.zone/logos/telegram/telegram-icon.svg', url: `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(`Help this pet find a flight buddy!`)}` },
     { name: 'Line', icon: 'https://www.vectorlogo.zone/logos/line/line-official.svg', url: `https://line.me/R/msg/text/?${encodeURIComponent(`Help this pet! ${shareUrl}`)}` },
     { name: 'X', icon: 'https://www.vectorlogo.zone/logos/x/x-icon.svg', url: `https://twitter.com/intent/tweet?text=${encodeURIComponent(`Help this pet find a flight buddy!`)}&url=${encodeURIComponent(shareUrl)}` },
   ];
@@ -138,7 +139,7 @@ const ShareModal = ({ post, onClose }) => {
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem', marginBottom: '1.5rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '0.75rem', marginBottom: '1.5rem' }}>
             {shareOptions.map(opt => (
               <a key={opt.name} href={opt.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', fontSize: '0.75rem', fontWeight: 600 }}>
                 <div style={{ width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'transform 0.2s' }} onMouseOver={e => e.currentTarget.style.transform = 'scale(1.1)'} onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}>
