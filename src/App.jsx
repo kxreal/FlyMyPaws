@@ -1,0 +1,259 @@
+import React, { useState, useEffect } from 'react';
+import { Routes, Route, Link, NavLink, useNavigate } from 'react-router-dom';
+import { supabase } from './lib/supabase';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Profile from './pages/Profile';
+import CreatePost from './pages/CreatePost';
+import Messages from './pages/Messages';
+import AdminCenter from './pages/Admin';
+import PetsNeedingHelp from './pages/PetsNeedingHelp';
+import FlightVolunteers from './pages/FlightVolunteers';
+import PublicProfile from './pages/PublicProfile';
+import PostDetail from './pages/PostDetail';
+import Onboarding from './pages/Onboarding';
+import { Moon, Sun } from 'lucide-react';
+
+const App = () => {
+  const [session, setSession] = useState(null);
+  const [userRole, setUserRole] = useState(null);
+  const [darkMode, setDarkMode] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      if (session) checkOnboarding(session.user.id);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+      if (session) {
+        checkOnboarding(session.user.id);
+        fetchUnreadCount(session.user.id);
+        fetchUserRole(session.user.id);
+      } else {
+        setUnreadCount(0);
+        setUserRole(null);
+      }
+    });
+
+    // Subscribe to unread messages
+    let messageChannel;
+    if (session?.user) {
+      fetchUnreadCount(session.user.id);
+      messageChannel = supabase
+        .channel('unread-counts')
+        .on('postgres_changes', {
+          event: '*',
+          schema: 'public',
+          table: 'messages'
+        }, () => {
+          fetchUnreadCount(session.user.id);
+        })
+        .subscribe();
+    }
+
+    return () => {
+      subscription.unsubscribe();
+      if (messageChannel) supabase.removeChannel(messageChannel);
+    };
+  }, [session?.user?.id]);
+
+  useEffect(() => {
+    if ('setAppBadge' in navigator) {
+      if (unreadCount > 0) {
+        navigator.setAppBadge(unreadCount).catch(console.error);
+      } else {
+        navigator.clearAppBadge().catch(console.error);
+      }
+    }
+  }, [unreadCount]);
+
+  const checkOnboarding = async (userId) => {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('username')
+      .eq('id', userId)
+      .single();
+
+    // If no username, and we aren't already on the onboarding page, redirect
+    if (profile && !profile.username && window.location.pathname !== '/onboarding') {
+      navigate('/onboarding');
+    }
+  };
+
+  const fetchUserRole = async (userId) => {
+    const { data } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', userId)
+      .single();
+    if (data) setUserRole(data.role);
+  };
+
+  const fetchUnreadCount = async (userId) => {
+    const { count } = await supabase
+      .from('messages')
+      .select('*', { count: 'exact', head: true })
+      .eq('receiver_id', userId)
+      .eq('is_read', false);
+    setUnreadCount(count || 0);
+  };
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', darkMode);
+  }, [darkMode]);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    navigate('/');
+  };
+
+  return (
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      {/* Navigation */}
+      <nav className="navbar">
+        <div className="container flex-between" style={{ height: '100%' }}>
+          {/* Logo Wordmark */}
+          <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', textDecoration: 'none' }}>
+            <span style={{ fontSize: '1.4rem', lineHeight: 1 }}>🐾</span>
+            <span style={{
+              fontWeight: 800,
+              fontSize: '1.15rem',
+              letterSpacing: '-0.03em',
+              background: 'linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+            }}>FlyMyPaws</span>
+          </Link>
+
+          {/* Nav Links */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+            <NavLink to="/" end className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>Home</NavLink>
+            <NavLink to="/pets" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>
+              <span className="full-text">Pets Needing Help</span>
+              <span className="short-text">Pets</span>
+            </NavLink>
+            <NavLink to="/volunteers" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>
+              <span className="full-text">Flight Volunteers</span>
+              <span className="short-text">Volunteers</span>
+            </NavLink>
+          </div>
+
+          {/* Right Side */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <button
+              onClick={() => setDarkMode(!darkMode)}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-text-muted)', padding: '0.4rem', borderRadius: '8px', display: 'flex' }}
+              aria-label="Toggle dark mode"
+            >
+              {darkMode ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
+
+            {session ? (
+              <>
+                <NavLink to="/messages" className="nav-link" style={{ fontSize: '0.85rem', position: 'relative' }}>
+                  Messages
+                  {unreadCount > 0 && (
+                    <span style={{
+                      position: 'absolute',
+                      top: '-2px',
+                      right: '-6px',
+                      backgroundColor: 'var(--color-primary)',
+                      color: 'white',
+                      borderRadius: '50%',
+                      width: '18px',
+                      height: '18px',
+                      fontSize: '0.7rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontWeight: 'bold',
+                      border: '2px solid var(--color-surface)'
+                    }}>
+                      {unreadCount > 9 ? '9+' : unreadCount}
+                    </span>
+                  )}
+                </NavLink>
+                <NavLink to="/profile" className="nav-link" style={{ fontSize: '0.85rem' }}>Profile</NavLink>
+                <NavLink to="/create-post" className="btn btn-primary btn-sm">+ Post</NavLink>
+                <button onClick={handleLogout} className="btn btn-ghost btn-sm">Logout</button>
+              </>
+            ) : (
+              <Link to="/login" className="btn btn-primary btn-sm">Sign In</Link>
+            )}
+          </div>
+        </div>
+      </nav>
+
+      {/* Main Content */}
+      <main style={{ flex: 1 }}>
+        <Routes>
+          <Route path="/" element={<Home session={session} />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/create-post" element={<CreatePost />} />
+          <Route path="/messages" element={<Messages />} />
+          <Route path="/admin" element={<AdminCenter />} />
+          <Route path="/pets" element={<PetsNeedingHelp session={session} />} />
+          <Route path="/volunteers" element={<FlightVolunteers session={session} />} />
+          <Route path="/user/:id" element={<PublicProfile />} />
+          <Route path="/post/:id" element={<PostDetail />} />
+          <Route path="/onboarding" element={<Onboarding />} />
+        </Routes>
+      </main>
+
+      {/* Footer */}
+      <footer style={{ background: 'var(--color-surface)', borderTop: '1px solid var(--color-border)', padding: '2.5rem 0' }}>
+        <div className="container">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '2rem' }}>
+            {/* Brand */}
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.5rem' }}>
+                <span style={{ fontSize: '1.2rem' }}>🐾</span>
+                <span style={{
+                  fontWeight: 800,
+                  fontSize: '1rem',
+                  letterSpacing: '-0.03em',
+                  background: 'linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}>FlyMyPaws</span>
+              </div>
+              <p style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', maxWidth: '220px', lineHeight: '1.5' }}>
+                Connecting pet owners with caring flight volunteers. Every pet deserves a safe journey.
+              </p>
+            </div>
+
+            {/* Links */}
+            <div style={{ display: 'flex', gap: '4rem' }}>
+              <div>
+                <p style={{ fontWeight: 600, fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--color-text-muted)', marginBottom: '0.75rem' }}>PLATFORM</p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  <Link to="/pets" style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem' }}>Pets Needing Help</Link>
+                  <Link to="/volunteers" style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem' }}>Flight Volunteers</Link>
+                  <Link to="/create-post" style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem' }}>Post a Request</Link>
+                </div>
+              </div>
+              <div>
+                <p style={{ fontWeight: 600, fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--color-text-muted)', marginBottom: '0.75rem' }}>LEGAL</p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  <Link to="/#disclaimer" style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem' }}>Disclaimer</Link>
+                  {userRole === 'admin' && (
+                    <Link to="/admin" style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem' }}>Admin</Link>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default App;
