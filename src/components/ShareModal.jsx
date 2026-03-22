@@ -20,7 +20,7 @@ const ShareModal = ({ post, onClose }) => {
     canvas.width = 600;
     canvas.height = 600;
 
-    const render = (img = null) => {
+    const render = (img = null, qrImg = null) => {
       ctx.clearRect(0, 0, 600, 600);
       
       // 1. Background Gradient
@@ -87,8 +87,16 @@ const ShareModal = ({ post, onClose }) => {
       ctx.fillText(formatDate(post.flight_date), 300, 460);
 
       // 7. Call to Action
-      ctx.fillStyle = '#9CA3AF'; ctx.font = '500 16px Inter, system-ui';
-      ctx.fillText('FlyMyPaws.com · Scan to help', 300, 540);
+      if (qrImg) {
+        ctx.drawImage(qrImg, 150, 495, 80, 80);
+        ctx.fillStyle = '#6B7280'; ctx.font = '700 18px Inter, system-ui'; ctx.textAlign = 'left';
+        ctx.fillText('Scan to help this pet', 250, 530);
+        ctx.fillStyle = '#9CA3AF'; ctx.font = '500 14px Inter, system-ui';
+        ctx.fillText('flymypaws.com', 250, 555);
+      } else {
+        ctx.fillStyle = '#9CA3AF'; ctx.font = '500 16px Inter, system-ui'; ctx.textAlign = 'center';
+        ctx.fillText('FlyMyPaws.com · Scan to help', 300, 540);
+      }
 
       // 8. Urgent Badge
       if (post.is_urgent) {
@@ -100,15 +108,26 @@ const ShareModal = ({ post, onClose }) => {
     };
 
     const photoUrl = post.photos?.[0];
-    if (photoUrl) {
-      const img = new Image();
-      img.crossOrigin = 'anonymous';
-      img.src = photoUrl;
-      img.onload = () => render(img);
-      img.onerror = () => render();
-    } else {
-      render();
-    }
+    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(shareUrl)}&color=1F2937&bgcolor=FFFFFF`;
+
+    Promise.all([
+      photoUrl ? new Promise(resolve => {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.src = photoUrl;
+        img.onload = () => resolve(img);
+        img.onerror = () => resolve(null);
+      }) : Promise.resolve(null),
+      new Promise(resolve => {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.src = qrUrl;
+        img.onload = () => resolve(img);
+        img.onerror = () => resolve(null);
+      })
+    ]).then(([photoImg, qrImg]) => {
+      render(photoImg, qrImg);
+    });
 
   }, [post]);
 
