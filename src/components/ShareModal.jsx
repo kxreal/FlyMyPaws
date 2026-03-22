@@ -15,7 +15,7 @@ const ShareModal = ({ post, onClose }) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
-    
+
     // Set dimensions
     canvas.width = 600;
     canvas.height = 600;
@@ -59,7 +59,7 @@ const ShareModal = ({ post, onClose }) => {
 
       ctx.fillStyle = '#374151'; ctx.font = '600 18px Inter, system-ui';
       ctx.fillText('FLIGHT ROUTE', 300, 375);
-      
+
       ctx.fillStyle = '#FF7043'; ctx.font = '700 32px Inter, system-ui';
       ctx.fillText(`${post.origin} → ${post.destination}`, 300, 420);
 
@@ -108,8 +108,8 @@ const ShareModal = ({ post, onClose }) => {
   const shareOptions = [
     { name: 'WhatsApp', icon: 'https://www.vectorlogo.zone/logos/whatsapp/whatsapp-icon.svg', url: `https://wa.me/?text=${encodeURIComponent(`Help this pet find a flight buddy! ${shareUrl}`)}` },
     { name: 'Facebook', icon: 'https://www.vectorlogo.zone/logos/facebook/facebook-official.svg', url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}` },
-    { name: 'Line', icon: 'https://www.vectorlogo.zone/logos/lineit/lineit-icon.svg', url: `https://line.me/R/msg/text/?${encodeURIComponent(`Help this pet! ${shareUrl}`)}` },
-    { name: 'X', icon: 'https://www.vectorlogo.zone/logos/twitter/twitter-icon.svg', url: `https://twitter.com/intent/tweet?text=${encodeURIComponent(`Help this pet find a flight buddy!`)}&url=${encodeURIComponent(shareUrl)}` },
+    { name: 'Line', icon: 'https://www.vectorlogo.zone/logos/line/line-official.svg', url: `https://line.me/R/msg/text/?${encodeURIComponent(`Help this pet! ${shareUrl}`)}` },
+    { name: 'X', icon: 'https://www.vectorlogo.zone/logos/x/x-icon.svg', url: `https://twitter.com/intent/tweet?text=${encodeURIComponent(`Help this pet find a flight buddy!`)}&url=${encodeURIComponent(shareUrl)}` },
   ];
 
   return (
@@ -123,7 +123,7 @@ const ShareModal = ({ post, onClose }) => {
         <div style={{ padding: '1.5rem', textAlign: 'center' }}>
           {/* Canvas hidden but used for download */}
           <canvas ref={canvasRef} style={{ display: 'none' }} />
-          
+
           {/* Visual Preview */}
           <div style={{ width: '220px', height: '220px', margin: '0 auto 1.5rem', borderRadius: '16px', overflow: 'hidden', border: '4px solid #f3f4f6', background: '#FFF3EF', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
             {post.photos?.[0] ? (
