@@ -21,6 +21,8 @@ const ShareModal = ({ post, onClose }) => {
     canvas.height = 600;
 
     const render = (img = null) => {
+      ctx.clearRect(0, 0, 600, 600);
+      
       // 1. Background Gradient
       const grad = ctx.createLinearGradient(0, 0, 600, 600);
       grad.addColorStop(0, '#FFF3EF');
@@ -55,7 +57,11 @@ const ShareModal = ({ post, onClose }) => {
       ctx.fillStyle = '#FFFFFF';
       ctx.shadowColor = 'rgba(0,0,0,0.1)'; ctx.shadowBlur = 20; ctx.shadowOffsetY = 10;
       ctx.beginPath(); ctx.roundRect(80, 340, 440, 140, 20); ctx.fill();
+      
+      // Reset Shadow
       ctx.shadowBlur = 0;
+      ctx.shadowOffsetY = 0;
+      ctx.shadowColor = 'transparent';
 
       ctx.fillStyle = '#374151'; ctx.font = '600 18px Inter, system-ui';
       ctx.fillText('FLIGHT ROUTE', 300, 375);

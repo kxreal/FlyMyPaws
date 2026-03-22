@@ -174,7 +174,13 @@ const PostDetail = () => {
   return (
     <div className="container" style={{ padding: '2.5rem var(--spacing-lg)', maxWidth: '860px' }}>
       {/* Back */}
-      <button onClick={() => navigate(-1)} style={{ background: 'none', border: 'none', color: 'var(--color-text-muted)', cursor: 'pointer', fontSize: '0.875rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.3rem', padding: 0 }}>
+      <button onClick={() => {
+        if (window.history.state && window.history.state.idx > 0) {
+          navigate(-1);
+        } else {
+          navigate('/pets');
+        }
+      }} style={{ background: 'none', border: 'none', color: 'var(--color-text-muted)', cursor: 'pointer', fontSize: '0.875rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.3rem', padding: 0 }}>
         ← Back to listings
       </button>
 
