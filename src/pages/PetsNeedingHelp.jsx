@@ -119,17 +119,17 @@ const FilterPanel = ({ allPosts, filters, setFilters, onClear }) => {
       <div style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '0.5rem' }}>{label}</div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', maxHeight: '180px', overflowY: 'auto' }}>
         {items.map(city => (
-          <label key={city} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontSize: '0.84rem' }}>
+          <label key={city} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontSize: '0.84rem', minWidth: 0 }}>
             <input
               type="checkbox"
               checked={filters[filterKey].includes(city)}
               onChange={() => toggle(filterKey, city)}
-              style={{ accentColor: 'var(--color-primary)', width: '14px', height: '14px', cursor: 'pointer' }}
+              style={{ accentColor: 'var(--color-primary)', width: '14px', height: '14px', cursor: 'pointer', flexShrink: 0 }}
             />
-            <span style={{ color: filters[filterKey].includes(city) ? 'var(--color-primary)' : 'var(--color-text-main)', fontWeight: filters[filterKey].includes(city) ? 600 : 400 }}>
+            <span style={{ color: filters[filterKey].includes(city) ? 'var(--color-primary)' : 'var(--color-text-main)', fontWeight: filters[filterKey].includes(city) ? 600 : 400, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', flex: 1 }}>
               {city}
             </span>
-            <span style={{ marginLeft: 'auto', fontSize: '0.72rem', color: 'var(--color-text-muted)' }}>
+            <span style={{ marginLeft: 'auto', fontSize: '0.72rem', color: 'var(--color-text-muted)', flexShrink: 0 }}>
               {allPosts.filter(p => p[filterKey === 'origins' ? 'origin' : 'destination'] === city).length}
             </span>
           </label>
@@ -255,7 +255,7 @@ const PetsNeedingHelp = ({ session }) => {
       {/* Layout: filter sidebar + grid */}
       <div className="main-content-grid" style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-start' }}>
         {showFilters && (
-          <div style={{ width: '220px', flexShrink: 0 }}>
+          <div className="filter-sidebar">
             <FilterPanel allPosts={allPosts} filters={filters} setFilters={setFilters} onClear={clearFilters} />
           </div>
         )}

@@ -246,17 +246,17 @@ const FilterPanel = ({ posts, cityFilter, setCityFilter, dateFrom, setDateFrom, 
         <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--color-text-muted)', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Cities</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', maxHeight: '260px', overflowY: 'auto' }}>
           {allCities.map(city => (
-            <label key={city} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontSize: '0.85rem', padding: '0.2rem 0' }}>
+            <label key={city} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontSize: '0.85rem', padding: '0.2rem 0', minWidth: 0 }}>
               <input
                 type="checkbox"
                 checked={cityFilter.includes(city)}
                 onChange={() => toggleCity(city)}
-                style={{ accentColor: 'var(--color-primary)', width: '15px', height: '15px', cursor: 'pointer' }}
+                style={{ accentColor: 'var(--color-primary)', width: '15px', height: '15px', cursor: 'pointer', flexShrink: 0 }}
               />
-              <span style={{ color: cityFilter.includes(city) ? 'var(--color-primary)' : 'var(--color-text-main)', fontWeight: cityFilter.includes(city) ? 600 : 400 }}>
+              <span style={{ color: cityFilter.includes(city) ? 'var(--color-primary)' : 'var(--color-text-main)', fontWeight: cityFilter.includes(city) ? 600 : 400, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', flex: 1 }}>
                 {city}
               </span>
-              <span style={{ marginLeft: 'auto', fontSize: '0.72rem', color: 'var(--color-text-muted)' }}>
+              <span style={{ marginLeft: 'auto', fontSize: '0.72rem', color: 'var(--color-text-muted)', flexShrink: 0 }}>
                 {posts.filter(p => p.origin === city || p.destination === city).length}
               </span>
             </label>
@@ -382,7 +382,7 @@ const FlightVolunteers = ({ session }) => {
       <div className="main-content-grid" style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-start' }}>
         {/* Filter Panel */}
         {showFilters && (
-          <div style={{ width: '220px', flexShrink: 0 }}>
+          <div className="filter-sidebar">
             <FilterPanel
               posts={allPosts}
               cityFilter={cityFilter}

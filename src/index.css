@@ -431,8 +431,17 @@ a:hover { color: var(--color-primary-dark); }
     gap: 1.5rem !important;
   }
   
+  .filter-sidebar {
+    width: 100% !important;
+  }
+
   /* Sidebar order fix */
   .main-content-grid > div:nth-child(2) {
     order: 2;
   }
+}
+
+.filter-sidebar {
+  width: 240px;
+  flex-shrink: 0;
 }
