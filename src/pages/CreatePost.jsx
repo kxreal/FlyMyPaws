@@ -30,6 +30,7 @@ const CreatePost = () => {
   const [dateMode, setDateMode] = useState('exact'); // 'flexible' | 'month' | 'exact'
   const [airline, setAirline] = useState('');
   const [description, setDescription] = useState('');
+  const [isUrgent, setIsUrgent] = useState(false);
   const [photoFiles, setPhotoFiles] = useState([]);  // File objects
   const [photoPreviews, setPhotoPreviews] = useState([]); // blob URLs
 
@@ -92,6 +93,7 @@ const CreatePost = () => {
       flight_date: flightDate || null,
       description,
       airline: airline || null,
+      is_urgent: isUrgent,
       ...(postType === 'need_help' && {
         pet_name: petName,
         pet_emoji: petEmoji,
@@ -297,6 +299,21 @@ const CreatePost = () => {
               required={postType === 'volunteer'}
             />
           </div>
+        </div>
+
+        <div className="form-group" style={{ marginBottom: 0 }}>
+          <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', cursor: 'pointer', padding: '0.75rem', background: isUrgent ? 'var(--color-error-bg)' : 'var(--color-primary-bg)', borderRadius: '10px', border: isUrgent ? '1.5px solid var(--color-error)' : '1.5px solid var(--color-border)', transition: 'all 0.2s' }}>
+            <input 
+              type="checkbox" 
+              checked={isUrgent} 
+              onChange={e => setIsUrgent(e.target.checked)} 
+              style={{ width: '18px', height: '18px', cursor: 'pointer' }}
+            />
+            <div style={{ flex: 1 }}>
+              <div style={{ fontWeight: 700, fontSize: '0.9rem', color: isUrgent ? 'var(--color-error)' : 'var(--color-primary-dark)' }}>🚨 Mark as Urgent</div>
+              <p style={{ fontSize: '0.75rem', color: isUrgent ? 'var(--color-error)' : 'var(--color-text-muted)', fontWeight: 400 }}>Recommended for pets needing immediate transport (FlyMyPaws will prioritize this post)</p>
+            </div>
+          </label>
         </div>
 
         <div className="form-group" style={{ marginBottom: 0 }}>

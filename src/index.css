@@ -314,3 +314,22 @@ a:hover { color: var(--color-primary-dark); }
   background: #2D1515;
   border-color: #7F1D1D;
 }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 var(--spacing-md);
+  }
+
+  /* Reset grid layout for PostDetail on mobile */
+  .container > div {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1.5rem !important;
+  }
+  
+  /* Reset sidebar position */
+  .container > div > div:nth-child(2) {
+    order: 2;
+  }
+}

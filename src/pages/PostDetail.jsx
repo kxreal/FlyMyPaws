@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
-import { MessageCircle, MapPin, Calendar, Weight, Plane, User, ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { MessageCircle, MapPin, Calendar, Weight, Plane, User, ChevronLeft, ChevronRight, X, Share2 } from 'lucide-react';
+import ShareModal from '../components/ShareModal';
 
 const STATUS_LABELS = {
   still_needed: { label: 'Needs Volunteer', cls: 'status-still_needed' },
@@ -138,6 +139,7 @@ const PostDetail = () => {
   const [owner, setOwner] = useState(null);
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showShareModal, setShowShareModal] = useState(false);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => setSession(session));
@@ -198,6 +200,9 @@ const PostDetail = () => {
               </div>
               {post.breed && <p style={{ color: 'var(--color-text-muted)', marginTop: '0.25rem', fontSize: '0.95rem' }}>{post.breed}</p>}
             </div>
+            <button onClick={() => setShowShareModal(true)} className="btn btn-outline btn-sm" style={{ padding: '0.4rem 0.75rem', borderRadius: '8px' }}>
+              <Share2 size={15} /> Share
+            </button>
           </div>
 
           {/* Meta pills */}
@@ -280,6 +285,10 @@ const PostDetail = () => {
           </div>
         </div>
       </div>
+
+      {showShareModal && (
+        <ShareModal post={post} onClose={() => setShowShareModal(false)} />
+      )}
     </div>
   );
 };

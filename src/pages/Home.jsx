@@ -48,6 +48,10 @@ const PetCardMini = ({ post }) => {
             ? <img src={photo} alt={post.pet_name} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
             : <span style={{ fontSize: '3.5rem' }}>{post.pet_emoji || '🐾'}</span>
           }
+          {/* Urgent badge */}
+          {post.is_urgent && (
+            <span className="badge badge-red" style={{ position: 'absolute', top: '8px', left: '8px', fontSize: '0.65rem', boxShadow: '0 2px 8px rgba(239, 68, 68, 0.4)', border: '1px solid #fff' }}>🚨 URGENT</span>
+          )}
           {/* Status badge overlay */}
           <span className={`badge ${s.cls}`} style={{ position: 'absolute', top: '8px', right: '8px', fontSize: '0.68rem' }}>{s.label}</span>
         </div>
@@ -106,6 +110,7 @@ const Home = ({ session }) => {
         .eq('post_type', 'need_help')
         .eq('is_hidden', false)
         .in('status', ['still_needed', 'on_hold'])
+        .order('is_urgent', { ascending: false })
         .order('created_at', { ascending: false })
         .limit(16);
 
