@@ -156,6 +156,9 @@ const App = () => {
                 <NavLink to="/profile" className="nav-link nav-icon-only" title="Profile">
                   <User size={22} />
                 </NavLink>
+                <button onClick={handleLogout} className="theme-toggle" title="Logout" style={{ color: 'var(--color-error)', padding: '0.4rem' }}>
+                  <LogOut size={20} />
+                </button>
                 <NavLink to="/create-post" className="btn btn-primary btn-sm btn-post-mobile">
                   <span className="btn-text">+ Post</span>
                   <span className="btn-icon">+</span>
