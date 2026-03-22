@@ -42,7 +42,21 @@ const ShareModal = ({ post, onClose }) => {
       if (img) {
         ctx.save();
         ctx.beginPath(); ctx.arc(300, 180, 100, 0, Math.PI * 2); ctx.clip();
-        ctx.drawImage(img, 200, 80, 200, 200);
+        
+        let sWidth = img.width;
+        let sHeight = img.height;
+        let sx = 0;
+        let sy = 0;
+
+        if (img.width > img.height) {
+          sWidth = img.height;
+          sx = (img.width - sWidth) / 2;
+        } else {
+          sHeight = img.width;
+          sy = (img.height - sHeight) / 2;
+        }
+
+        ctx.drawImage(img, sx, sy, sWidth, sHeight, 200, 80, 200, 200);
         ctx.restore();
       } else {
         ctx.font = '120px serif'; ctx.textAlign = 'center';
