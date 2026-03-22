@@ -424,15 +424,15 @@ a:hover { color: var(--color-primary-dark); }
     padding-bottom: 70px; /* Space for bottom nav */
   }
 
-  /* Reset grid layout for PostDetail on mobile */
-  .container > div {
+  /* Target specific content grids to go stack-vertical on mobile */
+  .main-content-grid {
     display: flex !important;
     flex-direction: column !important;
     gap: 1.5rem !important;
   }
   
-  /* Reset sidebar position */
-  .container > div > div:nth-child(2) {
+  /* Sidebar order fix */
+  .main-content-grid > div:nth-child(2) {
     order: 2;
   }
 }
