@@ -41,7 +41,7 @@ const ShareModal = ({ post, onClose }) => {
       // 4. Pet Photo or Emoji
       if (img) {
         ctx.save();
-        ctx.beginPath(); ctx.arc(300, 180, 100, 0, Math.PI * 2); ctx.clip();
+        ctx.beginPath(); ctx.arc(300, 170, 90, 0, Math.PI * 2); ctx.clip();
         
         let sWidth = img.width;
         let sHeight = img.height;
@@ -56,15 +56,15 @@ const ShareModal = ({ post, onClose }) => {
           sy = (img.height - sHeight) / 2;
         }
 
-        ctx.drawImage(img, sx, sy, sWidth, sHeight, 200, 80, 200, 200);
+        ctx.drawImage(img, sx, sy, sWidth, sHeight, 210, 80, 180, 180);
         ctx.restore();
       } else {
-        ctx.font = '120px serif'; ctx.textAlign = 'center';
-        ctx.fillText(post.pet_emoji || '🐾', 300, 220);
+        ctx.font = '100px serif'; ctx.textAlign = 'center';
+        ctx.fillText(post.pet_emoji || '🐾', 300, 200);
       }
 
       // 5. Pet Name
-      ctx.fillStyle = '#1F2937'; ctx.font = '800 44px Inter, system-ui'; ctx.textAlign = 'center';
+      ctx.fillStyle = '#1F2937'; ctx.font = '800 38px Inter, system-ui'; ctx.textAlign = 'center';
       ctx.fillText(post.pet_name || 'Help this pet!', 300, 310);
 
       // 6. Route Card
