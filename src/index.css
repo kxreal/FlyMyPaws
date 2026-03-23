@@ -444,6 +444,7 @@ a:hover { color: var(--color-primary-dark); }
   .main-content-grid {
     display: flex !important;
     flex-direction: column !important;
+    align-items: stretch !important;
     gap: 1.5rem !important;
   }
   
