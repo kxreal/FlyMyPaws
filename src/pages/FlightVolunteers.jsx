@@ -279,7 +279,7 @@ const FlightVolunteers = ({ session }) => {
   const [cityFilter, setCityFilter] = useState([]);
   const [dateFrom, setDateFrom] = useState('');
   const [dateTo, setDateTo] = useState('');
-  const [showFilters, setShowFilters] = useState(true);
+  const [showFilters, setShowFilters] = useState(false);
 
   useEffect(() => {
     const fetch = async () => {
@@ -320,7 +320,7 @@ const FlightVolunteers = ({ session }) => {
   const activeFilterCount = cityFilter.length + (dateFrom ? 1 : 0) + (dateTo ? 1 : 0);
 
   return (
-    <div className="container" style={{ padding: '2.5rem var(--spacing-lg)' }}>
+    <div className="container" style={{ padding: '2.5rem var(--spacing-lg)', maxWidth: view === 'calendar' ? '90%' : undefined }}>
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.5rem' }}>
         <div>

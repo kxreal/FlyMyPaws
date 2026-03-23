@@ -185,7 +185,7 @@ const PetsNeedingHelp = ({ session }) => {
   const [allPosts, setAllPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
-  const [showFilters, setShowFilters] = useState(true);
+  const [showFilters, setShowFilters] = useState(false);
   const [filters, setFilters] = useState({ status: '', dateFrom: '', dateTo: '', origins: [], destinations: [] });
 
   useEffect(() => { fetchPosts(); }, []);

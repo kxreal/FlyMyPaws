@@ -235,7 +235,7 @@ const Home = ({ session }) => {
 
       {/* ── Mission Section ── */}
       <section style={{ background: 'var(--color-surface)', borderTop: '1px solid var(--color-border)', padding: '4rem 0' }}>
-        <div className="container" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', alignItems: 'center' }}>
+        <div className="container mission-grid">
           {/* Left: Text */}
           <div>
             <span style={{

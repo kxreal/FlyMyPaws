@@ -399,6 +399,22 @@ a:hover { color: var(--color-primary-dark); }
 .benefits-bg { background: #FFF3EF; }
 .dark .benefits-bg { background: #1E1410; }
 
+/* ── Mission Section ── */
+.mission-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+@media (max-width: 850px) {
+  .mission-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+
 /* ── Disclaimer box ── */
 .disclaimer-box {
   background: var(--color-error-bg);
