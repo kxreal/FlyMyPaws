@@ -106,14 +106,14 @@ const CalendarView = ({ posts, session }) => {
       </div>
 
       {/* Day headers */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '2px', marginBottom: '2px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, minmax(0, 1fr))', gap: '2px', marginBottom: '2px' }}>
         {DAYS.map(d => (
           <div key={d} style={{ textAlign: 'center', fontSize: '0.75rem', fontWeight: 600, color: 'var(--color-text-muted)', padding: '0.4rem 0' }}>{d}</div>
         ))}
       </div>
 
       {/* Calendar grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '2px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, minmax(0, 1fr))', gap: '2px' }}>
         {cells.map((cell, i) => {
           if (!cell) return <div key={`empty-${i}`} style={{ aspectRatio: '1', background: 'var(--color-background)', borderRadius: '6px' }} />;
           const isToday = cell.dateStr === todayStr;
