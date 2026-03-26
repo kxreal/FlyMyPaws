@@ -12,6 +12,7 @@ import FlightVolunteers from './pages/FlightVolunteers';
 import PublicProfile from './pages/PublicProfile';
 import PostDetail from './pages/PostDetail';
 import Onboarding from './pages/Onboarding';
+import UpdatePassword from './pages/UpdatePassword';
 import { Moon, Sun, User, MessageCircle, Home as HomeIcon, PawPrint, Plane, LogOut } from 'lucide-react';
 
 const App = () => {
@@ -184,6 +185,7 @@ const App = () => {
           <Route path="/volunteers" element={<FlightVolunteers session={session} />} />
           <Route path="/user/:id" element={<PublicProfile />} />
           <Route path="/post/:id" element={<PostDetail />} />
+          <Route path="/update-password" element={<UpdatePassword session={session} />} />
           <Route path="/onboarding" element={<Onboarding />} />
         </Routes>
       </main>
