@@ -4,6 +4,7 @@ import { supabase } from '../lib/supabase';
 import { MessageCircle, MapPin, Calendar, Weight, Plane, User, ChevronLeft, ChevronRight, X, Share2, Edit2, CheckCircle } from 'lucide-react';
 import ShareModal from '../components/ShareModal';
 import EditPostModal from '../components/EditPostModal';
+import ReviewModal from '../components/ReviewModal';
 
 const STATUS_LABELS = {
   still_needed: { label: 'Needs Volunteer', cls: 'status-still_needed' },
@@ -144,7 +145,7 @@ const PostDetail = () => {
   const [editingPost, setEditingPost] = useState(false);
 
   const handleCompleteOffPlatform = async () => {
-    if (!window.confirm("Mark as completed off-platform? (This won't assign a FlyMyPaws user to your flight history). To link a user and leave reviews, please click 'Complete' from inside your direct Messages instead!")) return;
+    if (!window.confirm("Mark as completed off-platform? (This won't assign a FlyMyPaws user to your flight history). To link a user and leave reviews, please Confirm their offer from inside your direct Messages!")) return;
     const { error } = await supabase.from('posts').update({ status: 'completed' }).eq('id', post.id);
     if (!error) {
       setPost(prev => ({ ...prev, status: 'completed' }));
@@ -152,6 +153,31 @@ const PostDetail = () => {
     } else {
       alert('Error updating post: ' + error.message);
     }
+  };
+
+  const [revieweeIdToRate, setRevieweeIdToRate] = useState(null);
+
+  const handleFinishAndComplete = async () => {
+    if (!window.confirm("Are you ready to officially complete this flight? This will close the post and let you leave a review for your partner.")) return;
+    
+    // update status to completed
+    const { error: updateErr } = await supabase.from('posts').update({ status: 'completed' }).eq('id', post.id);
+    if (updateErr) return alert(updateErr.message);
+
+    // drop system message if there is an assigned user
+    if (post.assigned_user_id) {
+      await supabase.from('messages').insert({
+        sender_id: session.user.id,
+        receiver_id: post.assigned_user_id,
+        post_id: post.id,
+        content: `SYSTEM_REVIEW_PROMPT:${post.id}`,
+        message_type: 'text'
+      });
+      // trigger review modal immediately for the author
+      setRevieweeIdToRate(post.assigned_user_id);
+    }
+
+    setPost(prev => ({ ...prev, status: 'completed' }));
   };
 
   useEffect(() => {
@@ -290,13 +316,20 @@ const PostDetail = () => {
                   <div style={{ padding: '0.6rem', borderRadius: '8px', background: 'var(--color-primary-bg)', color: 'var(--color-primary)', fontWeight: 600, fontSize: '0.875rem' }}>
                     This is your post
                   </div>
-                  {post.status !== 'completed' && (
+                  {post.status === 'confirmed' && (
+                    <div style={{ marginTop: '0.5rem' }}>
+                      <button onClick={handleFinishAndComplete} className="btn" style={{ width: '100%', padding: '0.6rem', background: '#10B981', color: 'white', display: 'flex', justifyContent: 'center', gap: '0.4rem', border: 'none' }}>
+                        <CheckCircle size={16} /> Finish & Complete Flight
+                      </button>
+                    </div>
+                  )}
+                  {post.status !== 'completed' && post.status !== 'confirmed' && (
                     <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
                       <button onClick={() => setEditingPost(true)} className="btn btn-outline" style={{ flex: 1, padding: '0.5rem', display: 'flex', justifyContent: 'center', gap: '0.4rem' }}>
                         <Edit2 size={16} /> Edit
                       </button>
-                      <button onClick={handleCompleteOffPlatform} className="btn" style={{ flex: 1, padding: '0.5rem', background: '#10B981', color: 'white', display: 'flex', justifyContent: 'center', gap: '0.4rem', border: 'none' }}>
-                        <CheckCircle size={16} /> Complete
+                      <button onClick={handleCompleteOffPlatform} className="btn" style={{ flex: 1, padding: '0.5rem', background: 'var(--color-surface)', color: 'var(--color-text-muted)', display: 'flex', justifyContent: 'center', gap: '0.4rem' }}>
+                        <CheckCircle size={16} /> Close
                       </button>
                     </div>
                   )}
@@ -329,6 +362,14 @@ const PostDetail = () => {
             setEditingPost(false);
             fetchPost();
           }}
+        />
+      )}
+
+      {revieweeIdToRate && (
+        <ReviewModal
+          revieweeId={revieweeIdToRate}
+          onClose={() => setRevieweeIdToRate(null)}
+          onSubmitted={() => setRevieweeIdToRate(null)}
         />
       )}
     </div>

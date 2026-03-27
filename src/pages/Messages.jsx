@@ -156,7 +156,7 @@ const Messages = () => {
         *,
         sender:profiles!sender_id(id, username, avatar_url),
         receiver:profiles!receiver_id(id, username, avatar_url),
-        post:posts!post_id(id, pet_name, origin, destination)
+        post:posts!post_id(id, pet_name, origin, destination, author_id, status)
       `)
       .or(`sender_id.eq.${userId},receiver_id.eq.${userId}`)
       .order('created_at', { ascending: false });
@@ -311,12 +311,12 @@ const Messages = () => {
     }
   };
 
-  const handleCompleteFlight = async () => {
-    if (!window.confirm(`Are you sure you want to officially complete this flight with ${selectedConv.profile.username}? This cannot be undone.`)) return;
+  const handleConfirmFlight = async () => {
+    if (!window.confirm(`Are you sure you want to officially confirm/assign this flight to ${selectedConv.profile.username}? This reserves the flight.`)) return;
 
     // Update post
     const { error: postErr } = await supabase.from('posts').update({
-      status: 'completed',
+      status: 'confirmed',
       assigned_user_id: selectedConv.profile.id
     }).eq('id', selectedConv.post_id);
 
@@ -327,14 +327,14 @@ const Messages = () => {
       sender_id: currentUser.id,
       receiver_id: selectedConv.profile.id,
       post_id: selectedConv.post_id,
-      content: `SYSTEM_REVIEW_PROMPT:${selectedConv.post_id}`,
+      content: `SYSTEM_CONFIRMED:${selectedConv.post_id}`,
       message_type: 'text'
     });
 
     // Update local state immediately
     setSelectedConv(prev => ({
       ...prev,
-      postDetails: { ...prev.postDetails, status: 'completed' }
+      postDetails: { ...prev.postDetails, status: 'confirmed' }
     }));
   };
 
@@ -489,13 +489,13 @@ const Messages = () => {
                 </div>
               </div>
               
-              {selectedConv.postDetails && selectedConv.postDetails.author_id === currentUser.id && selectedConv.postDetails.status !== 'completed' && (
+              {selectedConv.postDetails && selectedConv.postDetails.author_id === currentUser.id && selectedConv.postDetails.status === 'still_needed' && (
                 <button 
-                  onClick={handleCompleteFlight}
+                  onClick={handleConfirmFlight}
                   className="btn btn-sm" 
                   style={{ background: '#10B981', color: 'white', display: 'flex', alignItems: 'center', gap: '0.4rem', border: 'none', padding: '0.4rem 0.8rem' }}
                 >
-                  <CheckCircle size={16} /> <span className="full-text">Complete Flight</span><span className="short-text">Complete</span>
+                  <CheckCircle size={16} /> <span className="full-text">Confirm Flight</span><span className="short-text">Confirm</span>
                 </button>
               )}
             </div>
@@ -518,6 +518,18 @@ const Messages = () => {
                 </div>
               )}
               {messages.map((msg) => {
+                if (msg.content && msg.content.startsWith('SYSTEM_CONFIRMED:')) {
+                  return (
+                    <div key={msg.id} style={{ alignSelf: 'center', margin: '0.75rem 0', width: '100%', display: 'flex', justifyContent: 'center' }}>
+                      <div style={{ background: '#EFF6FF', color: '#1E3A8A', padding: '1rem 1.25rem', borderRadius: '14px', border: '1px solid #BFDBFE', display: 'flex', flexDirection: 'column', gap: '0.75rem', alignItems: 'center', maxWidth: '400px', textAlign: 'center' }}>
+                        <div style={{ fontSize: '1.5rem' }}>🤝</div>
+                        <strong>Flight Party Assigned!</strong>
+                        <p style={{ fontSize: '0.85rem', margin: 0, opacity: 0.85 }}>This flight is confirmed. You can officially complete it from the Post page later.</p>
+                      </div>
+                    </div>
+                  );
+                }
+                
                 if (msg.content && msg.content.startsWith('SYSTEM_REVIEW_PROMPT:')) {
                   return (
                     <div key={msg.id} style={{ alignSelf: 'center', margin: '0.75rem 0', width: '100%', display: 'flex', justifyContent: 'center' }}>
