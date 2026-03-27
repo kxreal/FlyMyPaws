@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
-import { Send, Image as ImageIcon, Smile, Link as LinkIcon, MoreVertical, Loader2, User, MessageCircle, ArrowLeft } from 'lucide-react';
+import { Send, Image as ImageIcon, Smile, Link as LinkIcon, MoreVertical, Loader2, User, MessageCircle, ArrowLeft, CheckCircle } from 'lucide-react';
+import ReviewModal from '../components/ReviewModal';
 
 const Messages = () => {
   const [searchParams] = useSearchParams();
@@ -20,6 +21,7 @@ const Messages = () => {
   const fileInputRef = useRef(null);
   const [hasMore, setHasMore] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
+  const [reviewTarget, setReviewTarget] = useState(null); // profile obj
   const prevScrollHeightRef = useRef(null);
 
   const EMOJIS = ['🐾', '🐶', '🐱', '✈️', '❤️', '😊', '🙌', '🙏', '🏠', '🦴'];
@@ -309,6 +311,33 @@ const Messages = () => {
     }
   };
 
+  const handleCompleteFlight = async () => {
+    if (!window.confirm(`Are you sure you want to officially complete this flight with ${selectedConv.profile.username}? This cannot be undone.`)) return;
+
+    // Update post
+    const { error: postErr } = await supabase.from('posts').update({
+      status: 'completed',
+      assigned_user_id: selectedConv.profile.id
+    }).eq('id', selectedConv.post_id);
+
+    if (postErr) return alert('Error updating post: ' + postErr.message);
+
+    // Inject system message
+    await supabase.from('messages').insert({
+      sender_id: currentUser.id,
+      receiver_id: selectedConv.profile.id,
+      post_id: selectedConv.post_id,
+      content: `SYSTEM_REVIEW_PROMPT:${selectedConv.post_id}`,
+      message_type: 'text'
+    });
+
+    // Update local state immediately
+    setSelectedConv(prev => ({
+      ...prev,
+      postDetails: { ...prev.postDetails, status: 'completed' }
+    }));
+  };
+
   const toggleEmoji = (emoji) => {
     setInputText(prev => prev + emoji);
   };
@@ -459,6 +488,16 @@ const Messages = () => {
                   )}
                 </div>
               </div>
+              
+              {selectedConv.postDetails && selectedConv.postDetails.author_id === currentUser.id && selectedConv.postDetails.status !== 'completed' && (
+                <button 
+                  onClick={handleCompleteFlight}
+                  className="btn btn-sm" 
+                  style={{ background: '#10B981', color: 'white', display: 'flex', alignItems: 'center', gap: '0.4rem', border: 'none', padding: '0.4rem 0.8rem' }}
+                >
+                  <CheckCircle size={16} /> <span className="full-text">Complete Flight</span><span className="short-text">Complete</span>
+                </button>
+              )}
             </div>
 
             {/* Message History */}
@@ -478,7 +517,23 @@ const Messages = () => {
                   <p style={{ marginTop: '1rem' }}>No messages yet. Send a message to start the conversation!</p>
                 </div>
               )}
-              {messages.map((msg) => (
+              {messages.map((msg) => {
+                if (msg.content && msg.content.startsWith('SYSTEM_REVIEW_PROMPT:')) {
+                  return (
+                    <div key={msg.id} style={{ alignSelf: 'center', margin: '0.75rem 0', width: '100%', display: 'flex', justifyContent: 'center' }}>
+                      <div style={{ background: '#F0FDF4', color: '#166534', padding: '1rem 1.25rem', borderRadius: '14px', border: '1px solid #BBF7D0', display: 'flex', flexDirection: 'column', gap: '0.75rem', alignItems: 'center', maxWidth: '400px', textAlign: 'center', boxShadow: '0 4px 12px rgba(22, 101, 52, 0.08)' }}>
+                        <div style={{ fontSize: '1.5rem' }}>🎉</div>
+                        <strong>Flight Officially Completed!</strong>
+                        <p style={{ fontSize: '0.85rem', margin: 0, opacity: 0.85 }}>Thank you for coordinating through FlyMyPaws.</p>
+                        <button onClick={() => setReviewTarget(selectedConv.profile)} className="btn btn-sm" style={{ background: '#166534', color: '#fff', width: '100%', marginTop: '0.25rem', padding: '0.6rem' }}>
+                          Rate {selectedConv.profile.username}
+                        </button>
+                      </div>
+                    </div>
+                  );
+                }
+
+                return (
                 <div key={msg.id} style={{
                   alignSelf: msg.sender_id === currentUser.id ? 'flex-end' : 'flex-start',
                   maxWidth: '75%'
@@ -505,7 +560,7 @@ const Messages = () => {
                     {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </small>
                 </div>
-              ))}
+              )})}
             </div>
 
             {/* Message Input */}
@@ -591,6 +646,15 @@ const Messages = () => {
           </div>
         )}
       </div>
+      
+      {reviewTarget && (
+        <ReviewModal
+          revieweeId={reviewTarget.id}
+          revieweeUsername={reviewTarget.username}
+          onClose={() => setReviewTarget(null)}
+          onSubmitted={() => setReviewTarget(null)}
+        />
+      )}
     </div>
   );
 };

@@ -12,6 +12,8 @@ const Profile = () => {
   const [saving, setSaving] = useState(false);
   const [toast, setToast] = useState(null);
   const [myPosts, setMyPosts] = useState([]);
+  const [completedFlights, setCompletedFlights] = useState([]);
+  const [myReviews, setMyReviews] = useState([]);
   const [editingPost, setEditingPost] = useState(null); // post object to edit
   
   const [profile, setProfile] = useState({
@@ -26,6 +28,7 @@ const Profile = () => {
       if (session) {
         fetchProfile(session.user.id);
         fetchMyPosts(session.user.id);
+        fetchHistoryAndReviews(session.user.id);
       } else {
         setLoading(false);
         navigate('/login');
@@ -38,8 +41,28 @@ const Profile = () => {
       .from('posts')
       .select('id, post_type, pet_name, pet_emoji, breed, weight_kg, description, photos, origin, destination, status, airline, flight_date, is_hidden')
       .eq('author_id', userId)
+      .neq('status', 'completed')
       .order('created_at', { ascending: false });
     setMyPosts(data || []);
+  };
+
+  const fetchHistoryAndReviews = async (userId) => {
+    // History
+    const { data: flights } = await supabase
+      .from('posts')
+      .select('*, author:profiles!author_id(username), assigned:profiles!assigned_user_id(username)')
+      .eq('status', 'completed')
+      .or(`author_id.eq.${userId},assigned_user_id.eq.${userId}`)
+      .order('created_at', { ascending: false });
+    setCompletedFlights(flights || []);
+
+    // Reviews
+    const { data: revs } = await supabase
+      .from('reviews')
+      .select('*, reviewer:profiles!reviewer_id(username)')
+      .eq('reviewee_id', userId)
+      .order('created_at', { ascending: false });
+    setMyReviews(revs || []);
   };
 
   const fetchProfile = async (userId) => {
@@ -220,20 +243,51 @@ const Profile = () => {
         )}
       </div>
 
-      <div className="card glass-panel">
+      <div className="card glass-panel mb-4">
         <h3>History of Appointed Flights</h3>
-        {profile.flight_history && profile.flight_history.length > 0 ? (
-          <ul style={{ listStyleType: 'none', marginTop: 'var(--spacing-md)' }}>
-            {profile.flight_history.map((flight, idx) => (
-              <li key={idx} style={{ padding: 'var(--spacing-sm) 0', borderBottom: '1px solid #E5E7EB' }}>
-                <strong>{flight.date}</strong>: {flight.origin} ✈️ {flight.destination} ({flight.pet})
-              </li>
+        {completedFlights.length > 0 ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', marginTop: 'var(--spacing-md)' }}>
+            {completedFlights.map(flight => (
+              <div key={flight.id} style={{ padding: '0.75rem 1rem', background: 'var(--color-background)', borderRadius: '8px', border: '1px solid var(--color-border)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.25rem' }}>
+                  <strong>{flight.pet_name || 'Pet'} ({flight.origin} ✈️ {flight.destination})</strong>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>{flight.flight_date || 'Flexible Date'}</span>
+                </div>
+                <div style={{ fontSize: '0.8rem', color: 'var(--color-text-sub)' }}>
+                  {session?.user.id === flight.author_id 
+                    ? `Matched with: ${flight.assigned?.username || 'Unknown'}`
+                    : `Posted by: ${flight.author?.username || 'Unknown'}`}
+                </div>
+              </div>
             ))}
-          </ul>
+          </div>
         ) : (
-          <div style={{ marginTop: 'var(--spacing-md)', color: 'var(--color-text-muted)', textAlign: 'center', padding: 'var(--spacing-xl)' }}>
+          <div style={{ marginTop: 'var(--spacing-md)', color: 'var(--color-text-muted)', textAlign: 'center', padding: 'var(--spacing-lg)' }}>
             <Info size={40} style={{ margin: '0 auto var(--spacing-sm)', opacity: 0.5 }} />
-            <p>No past flights recorded yet. Once you complete a match, your review and history will appear here.</p>
+            <p>No past flights recorded yet. Complete a match to build your history.</p>
+          </div>
+        )}
+      </div>
+
+      <div className="card glass-panel">
+        <h3>My Reviews</h3>
+        {myReviews.length > 0 ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', marginTop: 'var(--spacing-md)' }}>
+            {myReviews.map(r => (
+              <div key={r.id} style={{ padding: '0.75rem 1rem', background: 'var(--color-background)', borderRadius: '8px', border: '1px solid var(--color-border)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.35rem' }}>
+                  <div style={{ fontWeight: 600, fontSize: '0.9rem' }}>{r.reviewer?.username || 'Anonymous'}</div>
+                  <div style={{ color: '#F59E0B', fontSize: '0.9rem', letterSpacing: '2px' }}>
+                    {'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}
+                  </div>
+                </div>
+                {r.comment && <p style={{ margin: 0, fontSize: '0.85rem', color: 'var(--color-text-muted)', fontStyle: 'italic' }}>"{r.comment}"</p>}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div style={{ marginTop: 'var(--spacing-sm)', color: 'var(--color-text-muted)', fontSize: '0.85rem' }}>
+            No reviews received yet.
           </div>
         )}
       </div>

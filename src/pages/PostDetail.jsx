@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
-import { MessageCircle, MapPin, Calendar, Weight, Plane, User, ChevronLeft, ChevronRight, X, Share2 } from 'lucide-react';
+import { MessageCircle, MapPin, Calendar, Weight, Plane, User, ChevronLeft, ChevronRight, X, Share2, Edit2, CheckCircle } from 'lucide-react';
 import ShareModal from '../components/ShareModal';
+import EditPostModal from '../components/EditPostModal';
 
 const STATUS_LABELS = {
   still_needed: { label: 'Needs Volunteer', cls: 'status-still_needed' },
@@ -140,6 +141,18 @@ const PostDetail = () => {
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showShareModal, setShowShareModal] = useState(false);
+  const [editingPost, setEditingPost] = useState(false);
+
+  const handleCompleteOffPlatform = async () => {
+    if (!window.confirm("Mark as completed off-platform? (This won't assign a FlyMyPaws user to your flight history). To link a user and leave reviews, please click 'Complete' from inside your direct Messages instead!")) return;
+    const { error } = await supabase.from('posts').update({ status: 'completed' }).eq('id', post.id);
+    if (!error) {
+      setPost(prev => ({ ...prev, status: 'completed' }));
+      alert('Post marked as completed!');
+    } else {
+      alert('Error updating post: ' + error.message);
+    }
+  };
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => setSession(session));
@@ -273,8 +286,20 @@ const PostDetail = () => {
                   <MessageCircle size={15} /> Contact Owner
                 </Link>
               ) : (
-                <div style={{ padding: '0.6rem', borderRadius: '8px', background: 'var(--color-primary-bg)', color: 'var(--color-primary)', fontWeight: 600, fontSize: '0.875rem' }}>
-                  This is your post
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  <div style={{ padding: '0.6rem', borderRadius: '8px', background: 'var(--color-primary-bg)', color: 'var(--color-primary)', fontWeight: 600, fontSize: '0.875rem' }}>
+                    This is your post
+                  </div>
+                  {post.status !== 'completed' && (
+                    <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
+                      <button onClick={() => setEditingPost(true)} className="btn btn-outline" style={{ flex: 1, padding: '0.5rem', display: 'flex', justifyContent: 'center', gap: '0.4rem' }}>
+                        <Edit2 size={16} /> Edit
+                      </button>
+                      <button onClick={handleCompleteOffPlatform} className="btn" style={{ flex: 1, padding: '0.5rem', background: '#10B981', color: 'white', display: 'flex', justifyContent: 'center', gap: '0.4rem', border: 'none' }}>
+                        <CheckCircle size={16} /> Complete
+                      </button>
+                    </div>
+                  )}
                 </div>
               )
             ) : (
@@ -294,6 +319,17 @@ const PostDetail = () => {
 
       {showShareModal && (
         <ShareModal post={post} onClose={() => setShowShareModal(false)} />
+      )}
+
+      {editingPost && (
+        <EditPostModal
+          post={post}
+          onClose={() => setEditingPost(false)}
+          onSaved={() => {
+            setEditingPost(false);
+            fetchPost();
+          }}
+        />
       )}
     </div>
   );

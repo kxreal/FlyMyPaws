@@ -54,6 +54,7 @@ CREATE TABLE public.posts (
   flight_date TEXT,
   description TEXT,
   airline TEXT,
+  assigned_user_id UUID REFERENCES public.profiles(id),
   created_at TIMESTAMPTZ DEFAULT now()
 );
 
