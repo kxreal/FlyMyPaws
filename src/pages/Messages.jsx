@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
-import { Send, Image as ImageIcon, Smile, Link as LinkIcon, MoreVertical, Loader2, User, MessageCircle } from 'lucide-react';
+import { Send, Image as ImageIcon, Smile, Link as LinkIcon, MoreVertical, Loader2, User, MessageCircle, ArrowLeft } from 'lucide-react';
 
 const Messages = () => {
   const [searchParams] = useSearchParams();
@@ -283,9 +283,9 @@ const Messages = () => {
   }
 
   return (
-    <div className="container mt-4" style={{ maxWidth: '1000px', display: 'flex', height: 'calc(100vh - 160px)', gap: 'var(--spacing-md)' }}>
+    <div className="container mt-4 messages-layout" style={{ maxWidth: '1000px' }}>
       {/* Sidebar: Chat List */}
-      <div className="card glass-panel" style={{ width: '320px', padding: 0, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+      <div className={`card glass-panel messages-sidebar ${selectedConv ? 'hidden-on-mobile' : ''}`} style={{ padding: 0, overflow: 'hidden' }}>
         <div style={{ padding: 'var(--spacing-md)', borderBottom: '1px solid var(--color-border)' }}>
           <h3 style={{ margin: 0, fontSize: '1.25rem' }}>Messages</h3>
         </div>
@@ -388,12 +388,19 @@ const Messages = () => {
       </div>
 
       {/* Main Chat Area */}
-      <div className="card glass-panel" style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: 0, overflow: 'hidden' }}>
+      <div className={`card glass-panel messages-main ${!selectedConv ? 'hidden-on-mobile' : ''}`} style={{ padding: 0, overflow: 'hidden' }}>
         {selectedConv ? (
           <>
             {/* Chat Header */}
             <div style={{ padding: 'var(--spacing-md)', borderBottom: '1px solid var(--color-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'var(--color-surface)' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-sm)' }}>
+                <button 
+                  className="btn btn-ghost mobile-only" 
+                  onClick={() => setSelectedConv(null)}
+                  style={{ padding: '0.4rem', color: 'var(--color-text-muted)', marginRight: '0.25rem' }}
+                >
+                  <ArrowLeft size={20} />
+                </button>
                 {selectedConv.profile.avatar_url ? (
                   <img src={selectedConv.profile.avatar_url} style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover' }} alt="" />
                 ) : (

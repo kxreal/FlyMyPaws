@@ -51,7 +51,7 @@ CREATE TABLE public.posts (
   status TEXT DEFAULT 'still_needed' CHECK (status IN ('still_needed', 'on_hold', 'confirmed', 'completed')),
   origin TEXT NOT NULL,
   destination TEXT NOT NULL,
-  flight_date DATE,
+  flight_date TEXT,
   description TEXT,
   airline TEXT,
   created_at TIMESTAMPTZ DEFAULT now()
