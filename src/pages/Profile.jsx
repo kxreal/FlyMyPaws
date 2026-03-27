@@ -244,27 +244,55 @@ const Profile = () => {
       </div>
 
       <div className="card glass-panel mb-4">
-        <h3>History of Appointed Flights</h3>
-        {completedFlights.length > 0 ? (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', marginTop: 'var(--spacing-md)' }}>
-            {completedFlights.map(flight => (
-              <div key={flight.id} style={{ padding: '0.75rem 1rem', background: 'var(--color-background)', borderRadius: '8px', border: '1px solid var(--color-border)' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.25rem' }}>
-                  <strong>{flight.pet_name || 'Pet'} ({flight.origin} ✈️ {flight.destination})</strong>
-                  <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>{flight.flight_date || 'Flexible Date'}</span>
-                </div>
-                <div style={{ fontSize: '0.8rem', color: 'var(--color-text-sub)' }}>
-                  {session?.user.id === flight.author_id 
-                    ? `Matched with: ${flight.assigned?.username || 'Unknown'}`
-                    : `Posted by: ${flight.author?.username || 'Unknown'}`}
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
+        <h3 style={{ marginBottom: '1.25rem' }}>History of Appointed Flights</h3>
+        {completedFlights.length === 0 ? (
           <div style={{ marginTop: 'var(--spacing-md)', color: 'var(--color-text-muted)', textAlign: 'center', padding: 'var(--spacing-lg)' }}>
             <Info size={40} style={{ margin: '0 auto var(--spacing-sm)', opacity: 0.5 }} />
             <p>No past flights recorded yet. Complete a match to build your history.</p>
+          </div>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            {completedFlights.filter(f => (f.post_type === 'volunteer' && f.author_id === session?.user.id) || (f.post_type !== 'volunteer' && f.assigned_user_id === session?.user.id)).length > 0 && (
+              <div>
+                <h4 style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.5rem' }}>As Volunteer</h4>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+                  {completedFlights.filter(f => (f.post_type === 'volunteer' && f.author_id === session?.user.id) || (f.post_type !== 'volunteer' && f.assigned_user_id === session?.user.id)).map(flight => (
+                    <div key={flight.id} style={{ padding: '0.75rem 1rem', background: 'var(--color-background)', borderRadius: '8px', border: '1px solid var(--color-border)' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.25rem' }}>
+                        <strong>{flight.post_type === 'volunteer' ? 'Flight Volunteer' : (flight.pet_name || 'Pet')} ({flight.origin} ✈️ {flight.destination})</strong>
+                        <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>{flight.flight_date || 'Flexible Date'}</span>
+                      </div>
+                      <div style={{ fontSize: '0.8rem', color: 'var(--color-text-sub)' }}>
+                        {session?.user.id === flight.author_id 
+                          ? `Matched with: ${flight.assigned?.username || 'Unknown'}`
+                          : `Posted by: ${flight.author?.username || 'Unknown'}`}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            
+            {completedFlights.filter(f => (f.post_type !== 'volunteer' && f.author_id === session?.user.id) || (f.post_type === 'volunteer' && f.assigned_user_id === session?.user.id)).length > 0 && (
+              <div>
+                <h4 style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.5rem' }}>As Pet Owner (Helped)</h4>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+                  {completedFlights.filter(f => (f.post_type !== 'volunteer' && f.author_id === session?.user.id) || (f.post_type === 'volunteer' && f.assigned_user_id === session?.user.id)).map(flight => (
+                    <div key={flight.id} style={{ padding: '0.75rem 1rem', background: 'var(--color-background)', borderRadius: '8px', border: '1px solid var(--color-border)' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.25rem' }}>
+                        <strong>{flight.post_type === 'volunteer' ? 'Flight Volunteer' : (flight.pet_name || 'Pet')} ({flight.origin} ✈️ {flight.destination})</strong>
+                        <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>{flight.flight_date || 'Flexible Date'}</span>
+                      </div>
+                      <div style={{ fontSize: '0.8rem', color: 'var(--color-text-sub)' }}>
+                        {session?.user.id === flight.author_id 
+                          ? `Matched with: ${flight.assigned?.username || 'Unknown'}`
+                          : `Posted by: ${flight.author?.username || 'Unknown'}`}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>
