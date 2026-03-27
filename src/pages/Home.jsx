@@ -259,7 +259,7 @@ const Home = ({ session }) => {
           </div>
 
           {/* Right: Feature Grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem' }}>
             {[
               { icon: <Heart size={20} color="var(--color-primary)" />, title: 'Pet Welfare First', desc: 'Every match prioritises the animal\'s comfort and safety' },
               { icon: <ShieldCheck size={20} color="var(--color-primary)" />, title: 'Verified Community', desc: 'User profiles with reviews from past transport experiences' },
@@ -283,7 +283,7 @@ const Home = ({ session }) => {
             <h2 style={{ fontSize: '1.65rem', marginBottom: '0.5rem' }}>Why become a Flight Buddy?</h2>
             <p style={{ color: 'var(--color-text-muted)' }}>The rewards of helping a pet reach their new home</p>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
             {[
               { emoji: '🐾', title: 'Make a real difference', desc: 'Give a pet the calm, caring companion they need on a stressful journey.' },
               { emoji: '🤝', title: 'Build community', desc: 'Connect with fellow animal lovers and pet-friendly travellers worldwide.' },
