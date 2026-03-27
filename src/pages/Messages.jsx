@@ -18,6 +18,9 @@ const Messages = () => {
   const [uploading, setUploading] = useState(false);
   const scrollRef = useRef(null);
   const fileInputRef = useRef(null);
+  const [hasMore, setHasMore] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const prevScrollHeightRef = useRef(null);
 
   const EMOJIS = ['🐾', '🐶', '🐱', '✈️', '❤️', '😊', '🙌', '🙏', '🏠', '🦴'];
 
@@ -95,7 +98,8 @@ const Messages = () => {
 
   useEffect(() => {
     if (selectedConv && currentUser) {
-      fetchMessages();
+      setHasMore(true);
+      fetchMessages(false);
       markAsRead(selectedConv.profile.id, selectedConv.post_id);
     }
   }, [selectedConv, currentUser]);
@@ -124,10 +128,24 @@ const Messages = () => {
   };
 
   useEffect(() => {
-    if (scrollRef.current) {
+    if (!scrollRef.current) return;
+    if (prevScrollHeightRef.current !== null) {
+      // Restore scroll position after prepending older messages
+      const newScrollHeight = scrollRef.current.scrollHeight;
+      scrollRef.current.scrollTop += (newScrollHeight - prevScrollHeightRef.current);
+      prevScrollHeightRef.current = null;
+    } else {
+      // New normal message or initial load
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   }, [messages]);
+
+  const handleScroll = () => {
+    if (!scrollRef.current) return;
+    if (scrollRef.current.scrollTop === 0 && hasMore && !loadingMore && !loading && messages.length > 0) {
+      fetchMessages(true);
+    }
+  };
 
   const fetchConversations = async (userId) => {
     const { data: msgs, error } = await supabase
@@ -168,11 +186,13 @@ const Messages = () => {
     return convList;
   };
 
-  const fetchMessages = async () => {
+  const fetchMessages = async (loadOlder = false) => {
     if (!selectedConv || !currentUser) {
       setLoading(false);
       return;
     }
+    if (loadOlder) setLoadingMore(true);
+
     let query = supabase
       .from('messages')
       .select('*')
@@ -187,14 +207,33 @@ const Messages = () => {
       query = query.is('post_id', null);
     }
 
-    const { data, error } = await query.order('created_at', { ascending: true });
+    // Pagination: base on the oldest known message if `loadOlder` is true
+    if (loadOlder && messages.length > 0) {
+      query = query.lt('created_at', messages[0].created_at);
+    }
+
+    const { data, error } = await query
+      .order('created_at', { ascending: false })
+      .limit(30);
 
     if (error) {
-      setLoading(false);
+      if (loadOlder) setLoadingMore(false);
+      else setLoading(false);
       return;
     }
-    setMessages(data || []);
-    setLoading(false);
+
+    // We ordered descending to get latest, so reverse to display chronologically
+    const reversedData = (data || []).reverse();
+    setHasMore(data.length === 30);
+
+    if (loadOlder) {
+      if (scrollRef.current) prevScrollHeightRef.current = scrollRef.current.scrollHeight;
+      setMessages(prev => [...reversedData, ...prev]);
+      setLoadingMore(false);
+    } else {
+      setMessages(reversedData);
+      setLoading(false);
+    }
   };
 
   const handleSend = async (e, forcedContent = null, attachmentUrl = null) => {
@@ -425,9 +464,15 @@ const Messages = () => {
             {/* Message History */}
             <div
               ref={scrollRef}
+              onScroll={handleScroll}
               style={{ flex: 1, padding: 'var(--spacing-lg) var(--spacing-md)', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 'var(--spacing-md)', backgroundImage: 'radial-gradient(circle at 2px 2px, var(--color-border) 1px, transparent 0)', backgroundSize: '24px 24px' }}
             >
-              {messages.length === 0 && (
+              {loadingMore && (
+                <div style={{ display: 'flex', justifyContent: 'center', padding: '0.5rem 0' }}>
+                  <Loader2 className="spinner" size={20} color="var(--color-primary)" />
+                </div>
+              )}
+              {messages.length === 0 && !loadingMore && (
                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', opacity: 0.6 }}>
                   <MessageCircle size={48} color="var(--color-primary)" />
                   <p style={{ marginTop: '1rem' }}>No messages yet. Send a message to start the conversation!</p>
