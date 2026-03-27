@@ -52,6 +52,12 @@ const CreatePost = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    
+    if (!origin.trim() || !destination.trim()) {
+      setError('Please provide both an origin and destination.');
+      return;
+    }
+
     if (postType === 'volunteer' && !warningAcknowledged) {
       setError('Please tick the checkbox to confirm you have checked your airline\'s pet policy.');
       return;
@@ -338,7 +344,7 @@ const CreatePost = () => {
           type="submit"
           className="btn btn-primary"
           style={{ width: '100%', marginTop: '0.5rem' }}
-          disabled={loading || (postType === 'volunteer' && !warningAcknowledged)}
+          disabled={loading}
         >
           {loading ? 'Publishing…' : 'Publish Post'}
         </button>
