@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
-import { Send, Image as ImageIcon, Smile, Link as LinkIcon, MoreVertical, Loader2, User, MessageCircle, ArrowLeft, CheckCircle } from 'lucide-react';
+import { Send, Image as ImageIcon, Smile, Link as LinkIcon, MoreVertical, Loader2, User, MessageCircle, ArrowLeft, CheckCircle, X } from 'lucide-react';
 import ReviewModal from '../components/ReviewModal';
 
 const Messages = () => {
@@ -22,6 +22,7 @@ const Messages = () => {
   const [hasMore, setHasMore] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [reviewTarget, setReviewTarget] = useState(null); // profile obj
+  const [confirmingFlight, setConfirmingFlight] = useState(false);
   const prevScrollHeightRef = useRef(null);
 
   const EMOJIS = ['🐾', '🐶', '🐱', '✈️', '❤️', '😊', '🙌', '🙏', '🏠', '🦴'];
@@ -312,7 +313,7 @@ const Messages = () => {
   };
 
   const handleConfirmFlight = async () => {
-    if (!window.confirm(`Are you sure you want to officially confirm/assign this flight to ${selectedConv.profile.username}? This reserves the flight.`)) return;
+    setConfirmingFlight(false);
 
     // Update post
     const { error: postErr } = await supabase.from('posts').update({
@@ -503,13 +504,21 @@ const Messages = () => {
               </div>
               
               {selectedConv.postDetails && selectedConv.postDetails.author_id === currentUser.id && selectedConv.postDetails.status === 'still_needed' && (
-                <button 
-                  onClick={handleConfirmFlight}
-                  className="btn btn-sm" 
-                  style={{ background: '#10B981', color: 'white', display: 'flex', alignItems: 'center', gap: '0.4rem', border: 'none', padding: '0.4rem 0.8rem' }}
-                >
-                  <CheckCircle size={16} /> Confirm Match
-                </button>
+                confirmingFlight ? (
+                  <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                    <span style={{ fontSize: '0.8rem', color: 'var(--color-primary-dark)', fontWeight: 600 }}>Assign {selectedConv.profile.username}?</span>
+                    <button onClick={handleConfirmFlight} className="btn btn-sm" style={{ background: '#10B981', color: 'white', padding: '0.4rem 0.8rem', border: 'none' }}>Yes</button>
+                    <button onClick={() => setConfirmingFlight(false)} className="btn btn-sm btn-ghost" style={{ padding: '0.4rem', color: 'var(--color-text-muted)' }}><X size={16} /></button>
+                  </div>
+                ) : (
+                  <button 
+                    onClick={() => setConfirmingFlight(true)}
+                    className="btn btn-sm" 
+                    style={{ background: '#10B981', color: 'white', display: 'flex', alignItems: 'center', gap: '0.4rem', border: 'none', padding: '0.4rem 0.8rem' }}
+                  >
+                    <CheckCircle size={16} /> Confirm Match
+                  </button>
+                )
               )}
             </div>
 
