@@ -320,18 +320,31 @@ const Messages = () => {
       assigned_user_id: selectedConv.profile.id
     }).eq('id', selectedConv.post_id);
 
-    if (postErr) return alert('Error updating post: ' + postErr.message);
+    if (postErr) {
+      console.error('Post update error:', postErr);
+      return alert('Error updating post: ' + postErr.message);
+    }
 
     // Inject system message
-    await supabase.from('messages').insert({
+    const { data: newMsg, error: msgErr } = await supabase.from('messages').insert({
       sender_id: currentUser.id,
       receiver_id: selectedConv.profile.id,
       post_id: selectedConv.post_id,
       content: `SYSTEM_CONFIRMED:${selectedConv.post_id}`,
       message_type: 'text'
-    });
+    }).select().single();
 
-    // Update local state immediately
+    if (msgErr) {
+      console.error('Message insert error:', msgErr);
+      return alert('Error inserting system message: ' + msgErr.message);
+    }
+
+    // Manually push message into active view so it shows instantly
+    if (newMsg) {
+      setMessages(prev => [...prev, newMsg]);
+    }
+
+    // Update local state immediately to hide button
     setSelectedConv(prev => ({
       ...prev,
       postDetails: { ...prev.postDetails, status: 'confirmed' }
