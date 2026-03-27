@@ -57,7 +57,10 @@ const Login = () => {
     const { error } = await supabase.auth.signUp({
       email,
       password,
-      options: { data: { username: username || email.split('@')[0] } }
+      options: { 
+        data: { username: username || email.split('@')[0] },
+        emailRedirectTo: window.location.origin
+      }
     });
     if (error) {
       setError(error.message);
