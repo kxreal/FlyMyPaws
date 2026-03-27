@@ -143,9 +143,11 @@ const PostDetail = () => {
   const [loading, setLoading] = useState(true);
   const [showShareModal, setShowShareModal] = useState(false);
   const [editingPost, setEditingPost] = useState(false);
+  const [confirmingFinish, setConfirmingFinish] = useState(false);
+  const [confirmingClose, setConfirmingClose] = useState(false);
 
   const handleCompleteOffPlatform = async () => {
-    if (!window.confirm("Mark as completed off-platform? (This won't assign a FlyMyPaws user to your flight history). To link a user and leave reviews, please Confirm their offer from inside your direct Messages!")) return;
+    setConfirmingClose(false);
     const { error } = await supabase.from('posts').update({ status: 'completed' }).eq('id', post.id);
     if (!error) {
       setPost(prev => ({ ...prev, status: 'completed' }));
@@ -158,7 +160,7 @@ const PostDetail = () => {
   const [revieweeIdToRate, setRevieweeIdToRate] = useState(null);
 
   const handleFinishAndComplete = async () => {
-    if (!window.confirm("Are you ready to officially complete this flight? This will close the post and let you leave a review for your partner.")) return;
+    setConfirmingFinish(false);
     
     // update status to completed
     const { error: updateErr } = await supabase.from('posts').update({ status: 'completed' }).eq('id', post.id);
@@ -320,19 +322,41 @@ const PostDetail = () => {
                   </div>
                   {post.status === 'confirmed' && (
                     <div style={{ marginTop: '0.5rem' }}>
-                      <button onClick={handleFinishAndComplete} className="btn" style={{ width: '100%', padding: '0.6rem', background: '#10B981', color: 'white', display: 'flex', justifyContent: 'center', gap: '0.4rem', border: 'none' }}>
-                        <CheckCircle size={16} /> Finish & Complete Flight
-                      </button>
+                      {confirmingFinish ? (
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', padding: '0.75rem', background: '#F0FDF4', borderRadius: '8px', border: '1px solid #BBF7D0' }}>
+                          <span style={{ fontSize: '0.85rem', color: '#166534', fontWeight: 600, textAlign: 'center' }}>Ready to complete and leave a review?</span>
+                          <div style={{ display: 'flex', gap: '0.5rem' }}>
+                            <button onClick={handleFinishAndComplete} className="btn" style={{ flex: 1, background: '#10B981', color: 'white', border: 'none', padding: '0.5rem' }}>Yes, Complete</button>
+                            <button onClick={() => setConfirmingFinish(false)} className="btn btn-ghost" style={{ flex: 1, padding: '0.5rem', background: 'white', color: '#166534', border: '1px solid #BBF7D0' }}>Cancel</button>
+                          </div>
+                        </div>
+                      ) : (
+                        <button onClick={() => setConfirmingFinish(true)} className="btn" style={{ width: '100%', padding: '0.6rem', background: '#10B981', color: 'white', display: 'flex', justifyContent: 'center', gap: '0.4rem', border: 'none' }}>
+                          <CheckCircle size={16} /> Finish & Complete Flight
+                        </button>
+                      )}
                     </div>
                   )}
                   {post.status !== 'completed' && post.status !== 'confirmed' && (
-                    <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
-                      <button onClick={() => setEditingPost(true)} className="btn btn-outline" style={{ flex: 1, padding: '0.5rem', display: 'flex', justifyContent: 'center', gap: '0.4rem' }}>
-                        <Edit2 size={16} /> Edit
-                      </button>
-                      <button onClick={handleCompleteOffPlatform} className="btn" style={{ flex: 1, padding: '0.5rem', background: 'var(--color-surface)', color: 'var(--color-text-muted)', display: 'flex', justifyContent: 'center', gap: '0.4rem' }}>
-                        <CheckCircle size={16} /> Close
-                      </button>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '0.5rem' }}>
+                      {confirmingClose ? (
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', padding: '0.75rem', background: 'var(--color-surface)', borderRadius: '8px', border: '1px solid var(--color-border)' }}>
+                          <span style={{ fontSize: '0.85rem', color: 'var(--color-text-main)', textAlign: 'center' }}>Close without assigning a user?</span>
+                          <div style={{ display: 'flex', gap: '0.5rem' }}>
+                            <button onClick={handleCompleteOffPlatform} className="btn" style={{ flex: 1, background: 'var(--color-text-main)', color: 'white', padding: '0.5rem' }}>Close Post</button>
+                            <button onClick={() => setConfirmingClose(false)} className="btn btn-ghost" style={{ flex: 1, padding: '0.5rem' }}>Cancel</button>
+                          </div>
+                        </div>
+                      ) : (
+                        <div style={{ display: 'flex', gap: '0.5rem' }}>
+                          <button onClick={() => setEditingPost(true)} className="btn btn-outline" style={{ flex: 1, padding: '0.5rem', display: 'flex', justifyContent: 'center', gap: '0.4rem' }}>
+                            <Edit2 size={16} /> Edit
+                          </button>
+                          <button onClick={() => setConfirmingClose(true)} className="btn" style={{ flex: 1, padding: '0.5rem', background: 'var(--color-surface)', color: 'var(--color-text-muted)', display: 'flex', justifyContent: 'center', gap: '0.4rem' }}>
+                            <CheckCircle size={16} /> Close
+                          </button>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
