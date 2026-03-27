@@ -508,7 +508,7 @@ const Messages = () => {
                   className="btn btn-sm" 
                   style={{ background: '#10B981', color: 'white', display: 'flex', alignItems: 'center', gap: '0.4rem', border: 'none', padding: '0.4rem 0.8rem' }}
                 >
-                  <CheckCircle size={16} /> <span className="full-text">Confirm Flight</span><span className="short-text">Confirm</span>
+                  <CheckCircle size={16} /> Confirm Match
                 </button>
               )}
             </div>

@@ -232,7 +232,7 @@ const PostDetail = () => {
           {/* No photos placeholder */}
           {photos.length === 0 && (
             <div style={{ height: '200px', borderRadius: '14px', background: 'var(--color-primary-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '4rem', marginBottom: '1.75rem' }}>
-              {post.pet_emoji || '🐾'}
+              {post.post_type === 'volunteer' ? '✈️' : (post.pet_emoji || '🐾')}
             </div>
           )}
 
@@ -240,7 +240,7 @@ const PostDetail = () => {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '0.75rem' }}>
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
-                <h1 style={{ fontSize: '1.75rem' }}>{post.pet_name || 'Unnamed Pet'}</h1>
+                <h1 style={{ fontSize: '1.75rem' }}>{post.post_type === 'volunteer' ? 'Flight Volunteer' : (post.pet_name || 'Unnamed Pet')}</h1>
                 <span className={`badge ${s.cls}`}>{s.label}</span>
               </div>
               {post.breed && <p style={{ color: 'var(--color-text-muted)', marginTop: '0.25rem', fontSize: '0.95rem' }}>{post.breed}</p>}
@@ -302,9 +302,11 @@ const PostDetail = () => {
 
           {/* Contact CTA */}
           <div className="card" style={{ padding: '1.25rem', textAlign: 'center' }}>
-            <div style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>🐾</div>
+            <div style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>{post.post_type === 'volunteer' ? '✈️' : '🐾'}</div>
             <p style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)', marginBottom: '1rem', lineHeight: 1.6 }}>
-              Can you help {post.pet_name || 'this pet'} travel safely?
+              {post.post_type === 'volunteer' 
+                ? 'Request this volunteer to help carry your pet!' 
+                : `Can you help ${post.pet_name || 'this pet'} travel safely?`}
             </p>
             {session ? (
               session.user.id !== post.author_id ? (
