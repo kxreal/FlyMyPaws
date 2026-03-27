@@ -8,6 +8,29 @@ const ReviewModal = ({ revieweeId, revieweeUsername, onClose, onSubmitted }) => 
   const [comment, setComment] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const [existingReviewId, setExistingReviewId] = useState(null);
+  const [fetching, setFetching] = useState(true);
+
+  React.useEffect(() => {
+    const fetchExisting = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) { setFetching(false); return; }
+
+      const { data } = await supabase.from('reviews')
+        .select('*')
+        .eq('reviewer_id', session.user.id)
+        .eq('reviewee_id', revieweeId)
+        .maybeSingle();
+      
+      if (data) {
+        setExistingReviewId(data.id);
+        setRating(data.rating);
+        setComment(data.comment || '');
+      }
+      setFetching(false);
+    };
+    fetchExisting();
+  }, [revieweeId]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,12 +49,22 @@ const ReviewModal = ({ revieweeId, revieweeUsername, onClose, onSubmitted }) => 
       return;
     }
 
-    const { error: dbError } = await supabase.from('reviews').insert({
-      reviewer_id: session.user.id,
-      reviewee_id: revieweeId,
-      rating: rating,
-      comment: comment || null,
-    });
+    let dbError;
+    if (existingReviewId) {
+      const res = await supabase.from('reviews').update({
+        rating: rating,
+        comment: comment || null,
+      }).eq('id', existingReviewId);
+      dbError = res.error;
+    } else {
+      const res = await supabase.from('reviews').insert({
+        reviewer_id: session.user.id,
+        reviewee_id: revieweeId,
+        rating: rating,
+        comment: comment || null,
+      });
+      dbError = res.error;
+    }
 
     setSubmitting(false);
 
@@ -59,11 +92,17 @@ const ReviewModal = ({ revieweeId, revieweeUsername, onClose, onSubmitted }) => 
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1.25rem 1.5rem', borderBottom: '1px solid var(--color-border)' }}>
-          <h2 style={{ fontSize: '1.1rem', margin: 0 }}>Review {revieweeUsername || 'User'}</h2>
+          <h2 style={{ fontSize: '1.1rem', margin: 0 }}>{existingReviewId ? 'Edit Review' : 'Review'} {revieweeUsername || 'User'}</h2>
           <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-text-muted)' }}>
             <X size={20} />
           </button>
         </div>
+
+        {fetching ? (
+          <div style={{ padding: '3rem', textAlign: 'center', color: 'var(--color-text-muted)' }}>
+            <Loader2 size={24} className="spinner" style={{ margin: '0 auto' }} />
+          </div>
+        ) : (
 
         <form onSubmit={handleSubmit} style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
           
@@ -114,10 +153,11 @@ const ReviewModal = ({ revieweeId, revieweeUsername, onClose, onSubmitted }) => 
               Cancel
             </button>
             <button type="submit" disabled={submitting || rating < 1} className="btn btn-primary" style={{ flex: 1 }}>
-              {submitting ? <Loader2 size={18} className="spinner" /> : 'Submit Review'}
+              {submitting ? <Loader2 size={18} className="spinner" /> : (existingReviewId ? 'Update Review' : 'Submit Review')}
             </button>
           </div>
         </form>
+        )}
       </div>
     </div>
   );

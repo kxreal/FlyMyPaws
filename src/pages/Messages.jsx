@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { Send, Image as ImageIcon, Smile, Link as LinkIcon, MoreVertical, Loader2, User, MessageCircle, ArrowLeft, CheckCircle, X } from 'lucide-react';
 import ReviewModal from '../components/ReviewModal';
@@ -424,13 +424,15 @@ const Messages = () => {
                     }}
                     className="chat-item-hover"
                   >
-                    {chat.profile.avatar_url ? (
-                      <img src={chat.profile.avatar_url} style={{ width: '44px', height: '44px', borderRadius: '50%', objectFit: 'cover' }} alt="" />
-                    ) : (
-                      <div style={{ width: '44px', height: '44px', backgroundColor: 'var(--color-primary-bg)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <User size={20} color="var(--color-primary)" />
-                      </div>
-                    )}
+                    <Link to={`/user/${chat.profile.id}`} onClick={(e) => e.stopPropagation()} style={{ flexShrink: 0 }}>
+                      {chat.profile.avatar_url ? (
+                        <img src={chat.profile.avatar_url} style={{ width: '44px', height: '44px', borderRadius: '50%', objectFit: 'cover' }} alt="" />
+                      ) : (
+                        <div style={{ width: '44px', height: '44px', backgroundColor: 'var(--color-primary-bg)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <User size={20} color="var(--color-primary)" />
+                        </div>
+                      )}
+                    </Link>
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div className="flex-between">
                         <strong style={{ fontSize: '0.95rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{chat.profile.username || 'Anonymous'}</strong>
@@ -483,15 +485,19 @@ const Messages = () => {
                 >
                   <ArrowLeft size={20} />
                 </button>
-                {selectedConv.profile.avatar_url ? (
-                  <img src={selectedConv.profile.avatar_url} style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover' }} alt="" />
-                ) : (
-                  <div style={{ width: '36px', height: '36px', backgroundColor: 'var(--color-primary-bg)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <User size={18} color="var(--color-primary)" />
-                  </div>
-                )}
+                <Link to={`/user/${selectedConv.profile.id}`} style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center', gap: 'var(--spacing-sm)' }}>
+                  {selectedConv.profile.avatar_url ? (
+                    <img src={selectedConv.profile.avatar_url} style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover' }} alt="" />
+                  ) : (
+                    <div style={{ width: '36px', height: '36px', backgroundColor: 'var(--color-primary-bg)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <User size={18} color="var(--color-primary)" />
+                    </div>
+                  )}
+                </Link>
                 <div>
-                  <strong style={{ display: 'block', fontSize: '1rem' }}>{selectedConv.profile.username || 'Anonymous'}</strong>
+                  <Link to={`/user/${selectedConv.profile.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <strong style={{ display: 'block', fontSize: '1rem' }}>{selectedConv.profile.username || 'Anonymous'}</strong>
+                  </Link>
                   {selectedConv.postDetails && (
                     <a 
                       href={`/post/${selectedConv.post_id}`} 
@@ -560,7 +566,7 @@ const Messages = () => {
                         <strong>Flight Officially Completed!</strong>
                         <p style={{ fontSize: '0.85rem', margin: 0, opacity: 0.85 }}>Thank you for coordinating through FlyMyPaws.</p>
                         <button onClick={() => setReviewTarget(selectedConv.profile)} className="btn btn-sm" style={{ background: '#166534', color: '#fff', width: '100%', marginTop: '0.25rem', padding: '0.6rem' }}>
-                          Rate {selectedConv.profile.username}
+                          Rate / Edit Review
                         </button>
                       </div>
                     </div>

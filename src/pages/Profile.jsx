@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { User, LogOut, Info, ShieldAlert, Loader2 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import Toast from '../components/Toast';
@@ -304,7 +304,9 @@ const Profile = () => {
             {myReviews.map(r => (
               <div key={r.id} style={{ padding: '0.75rem 1rem', background: 'var(--color-background)', borderRadius: '8px', border: '1px solid var(--color-border)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.35rem' }}>
-                  <div style={{ fontWeight: 600, fontSize: '0.9rem' }}>{r.reviewer?.username || 'Anonymous'}</div>
+                  <Link to={`/user/${r.reviewer_id}`} style={{ fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-primary-dark)', textDecoration: 'none' }} className="hover-link">
+                    {r.reviewer?.username || 'Anonymous'}
+                  </Link>
                   <div style={{ color: '#F59E0B', fontSize: '0.9rem', letterSpacing: '2px' }}>
                     {'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}
                   </div>
