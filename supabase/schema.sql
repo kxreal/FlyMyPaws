@@ -119,3 +119,6 @@ CREATE POLICY "Users can create reviews"
 CREATE POLICY "Users can update their own reviews"
   ON public.reviews FOR UPDATE
   USING ( auth.uid() = reviewer_id );
+
+-- Enable Realtime for messages table
+ALTER PUBLICATION supabase_realtime ADD TABLE public.messages;

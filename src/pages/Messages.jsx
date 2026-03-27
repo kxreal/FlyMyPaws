@@ -420,9 +420,6 @@ const Messages = () => {
                   )}
                 </div>
               </div>
-              <button className="btn btn-outline" style={{ padding: '0.4rem', border: 'none', color: 'var(--color-text-muted)' }}>
-                <MoreVertical size={20} />
-              </button>
             </div>
 
             {/* Message History */}
