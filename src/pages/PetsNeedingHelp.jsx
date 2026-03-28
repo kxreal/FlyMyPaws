@@ -8,7 +8,6 @@ const STATUS_OPTIONS = [
   { value: 'still_needed', label: 'Needs Volunteer' },
   { value: 'on_hold', label: 'On Hold' },
   { value: 'confirmed', label: 'Confirmed' },
-  { value: 'completed', label: 'Completed' },
 ];
 
 const STATUS_LABELS = {
@@ -196,6 +195,7 @@ const PetsNeedingHelp = ({ session }) => {
       .from('posts')
       .select('*')
       .eq('post_type', 'need_help')
+      .neq('status', 'completed')
       .eq('is_hidden', false)
       .order('created_at', { ascending: false });
     if (!error) setAllPosts(data || []);
