@@ -411,12 +411,12 @@ a:hover { color: var(--color-primary-dark); }
     min-height: 240px;
     background: 
       linear-gradient(to right, rgba(255, 243, 239, 1) 0%, rgba(255, 243, 239, 0.95) 55%, rgba(255, 243, 239, 0) 100%),
-      url('/hero-bg.png') right 15% center / 250% auto no-repeat !important;
+      url('/hero-bg.png') right 35% center / 250% auto no-repeat !important;
   }
   .dark .hero-bg {
     background: 
       linear-gradient(to right, rgba(26, 15, 10, 1) 0%, rgba(26, 15, 10, 0.95) 55%, rgba(26, 15, 10, 0) 100%),
-      url('/hero-bg.png') right 15% center / 250% auto no-repeat !important;
+      url('/hero-bg.png') right 35% center / 250% auto no-repeat !important;
   }
   .hero-bg h1 {
     font-size: 1.95rem !important;
