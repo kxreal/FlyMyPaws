@@ -36,7 +36,7 @@ const PublicProfile = () => {
     setLoading(true);
     const [{ data: prof }, { data: userPosts }, { data: userReviews }] = await Promise.all([
       supabase.from('profiles').select('id, username, bio, flight_history, role').eq('id', userId).single(),
-      supabase.from('posts').select('*').eq('author_id', userId).order('created_at', { ascending: false }),
+      supabase.from('posts').select('*').or(`author_id.eq.${userId},assigned_user_id.eq.${userId}`).order('created_at', { ascending: false }),
       supabase.from('reviews').select('*, reviewer:profiles!reviews_reviewer_id_fkey(username)').eq('reviewee_id', userId).order('created_at', { ascending: false }),
     ]);
     setProfile(prof);
@@ -67,8 +67,10 @@ const PublicProfile = () => {
     ? (reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(1)
     : null;
 
-  const petPosts = posts.filter(p => p.post_type === 'need_help');
-  const volPosts = posts.filter(p => p.post_type === 'volunteer');
+  const authoredPosts = posts.filter(p => p.author_id === id);
+  const petPostsCount = authoredPosts.filter(p => p.post_type === 'need_help').length;
+  const volPostsCount = authoredPosts.filter(p => p.post_type === 'volunteer').length;
+  const completedCount = posts.filter(p => p.status === 'completed').length;
 
   return (
     <div className="container" style={{ padding: '2.5rem var(--spacing-lg)', maxWidth: '800px' }}>
@@ -106,15 +108,15 @@ const PublicProfile = () => {
           {/* Stats */}
           <div style={{ display: 'flex', gap: '1.5rem', fontSize: '0.875rem' }}>
             <div style={{ textAlign: 'center' }}>
-              <div style={{ fontWeight: 700, fontSize: '1.2rem' }}>{petPosts.length}</div>
+              <div style={{ fontWeight: 700, fontSize: '1.2rem' }}>{petPostsCount}</div>
               <div style={{ color: 'var(--color-text-muted)' }}>Pet Posts</div>
             </div>
             <div style={{ textAlign: 'center' }}>
-              <div style={{ fontWeight: 700, fontSize: '1.2rem' }}>{volPosts.length}</div>
+              <div style={{ fontWeight: 700, fontSize: '1.2rem' }}>{volPostsCount}</div>
               <div style={{ color: 'var(--color-text-muted)' }}>Volunteer Trips</div>
             </div>
             <div style={{ textAlign: 'center' }}>
-              <div style={{ fontWeight: 700, fontSize: '1.2rem' }}>{posts.filter(p => p.status === 'completed').length}</div>
+              <div style={{ fontWeight: 700, fontSize: '1.2rem' }}>{completedCount}</div>
               <div style={{ color: 'var(--color-text-muted)' }}>Completed</div>
             </div>
           </div>
@@ -154,11 +156,11 @@ const PublicProfile = () => {
       )}
 
       {/* Posts */}
-      {posts.length > 0 && (
+      {authoredPosts.length > 0 && (
         <div className="card" style={{ marginBottom: '1.5rem' }}>
           <h3 style={{ fontSize: '1rem', marginBottom: '1rem' }}>Active Posts</h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
-            {posts.map(p => {
+            {authoredPosts.map(p => {
               const s = STATUS_LABELS[p.status] || STATUS_LABELS.still_needed;
               return (
                 <div key={p.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.75rem', background: 'var(--color-background)', borderRadius: '8px', fontSize: '0.875rem' }}>
