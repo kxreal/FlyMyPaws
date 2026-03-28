@@ -389,10 +389,14 @@ a:hover { color: var(--color-primary-dark); }
 
 /* ── Hero background (adapts to dark mode) ── */
 .hero-bg {
-  background: linear-gradient(135deg, #FFF3EF 0%, #F9FAFB 50%, #FFF3EF 100%);
+  background: 
+    linear-gradient(rgba(255, 243, 239, 0.85), rgba(249, 250, 251, 1)),
+    url('https://images.unsplash.com/photo-1450778869180-41d0601e046e?auto=format&fit=crop&q=80&w=2000') center/cover no-repeat;
 }
 .dark .hero-bg {
-  background: linear-gradient(135deg, #1a0f0a 0%, #0F172A 50%, #1a0f0a 100%);
+  background: 
+    linear-gradient(rgba(26, 15, 10, 0.88), rgba(15, 23, 42, 1)),
+    url('https://images.unsplash.com/photo-1450778869180-41d0601e046e?auto=format&fit=crop&q=80&w=2000') center/cover no-repeat;
 }
 
 /* ── Benefits section background ── */
