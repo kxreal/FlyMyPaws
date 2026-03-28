@@ -389,6 +389,8 @@ a:hover { color: var(--color-primary-dark); }
 
 /* ── Hero background (adapts to dark mode) ── */
 .hero-bg {
+  padding: 5rem 0 5rem;
+  min-height: 420px;
   background: 
     linear-gradient(to right, rgba(255, 243, 239, 1) 0%, rgba(255, 243, 239, 0.8) 45%, rgba(255, 243, 239, 0) 100%),
     url('/hero-bg.png') right center/cover no-repeat;
@@ -397,6 +399,24 @@ a:hover { color: var(--color-primary-dark); }
   background: 
     linear-gradient(to right, rgba(26, 15, 10, 1) 0%, rgba(26, 15, 10, 0.8) 45%, rgba(26, 15, 10, 0) 100%),
     url('/hero-bg.png') right center/cover no-repeat;
+}
+
+@media (max-width: 640px) {
+  .hero-bg {
+    padding: 2.25rem 0 2.25rem;
+    min-height: 240px;
+  }
+  .hero-bg h1 {
+    font-size: 1.8rem !important; /* Make title slightly smaller so text doesn't wrap as deep */
+    margin-bottom: 0.75rem !important;
+  }
+  .hero-bg p {
+    font-size: 0.95rem !important;
+    margin-bottom: 0 !important;
+  }
+  .hero-buttons {
+    display: none !important;
+  }
 }
 
 /* ── Benefits section background ── */

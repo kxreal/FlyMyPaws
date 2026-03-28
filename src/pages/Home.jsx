@@ -142,10 +142,7 @@ const Home = ({ session }) => {
   return (
     <div>
       {/* ── Hero ── */}
-      <section className="hero-bg" style={{
-        padding: '5rem 0 4rem',
-        minHeight: '420px',
-      }}>
+      <section className="hero-bg">
         <div className="container">
           <span style={{
             display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
@@ -167,7 +164,7 @@ const Home = ({ session }) => {
             Help a stray or a beloved pet travel safely across the globe.
           </p>
 
-          <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+          <div className="hero-buttons" style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
             <Link to="/pets" className="btn btn-primary btn-lg">
               <PawPrint size={16} /> View Pets Needing Help
             </Link>
