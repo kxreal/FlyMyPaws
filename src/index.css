@@ -390,13 +390,13 @@ a:hover { color: var(--color-primary-dark); }
 /* ── Hero background (adapts to dark mode) ── */
 .hero-bg {
   background: 
-    linear-gradient(to right, rgba(255, 243, 239, 1) 0%, rgba(255, 243, 239, 0.9) 45%, rgba(255, 243, 239, 0) 100%),
-    url('https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&q=80&w=2000') center 30%/cover no-repeat;
+    linear-gradient(to right, rgba(255, 243, 239, 1) 0%, rgba(255, 243, 239, 0.8) 45%, rgba(255, 243, 239, 0) 100%),
+    url('https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=2100&h=900&q=80&crop=right') right center/cover no-repeat;
 }
 .dark .hero-bg {
   background: 
-    linear-gradient(to right, rgba(26, 15, 10, 1) 0%, rgba(26, 15, 10, 0.9) 45%, rgba(26, 15, 10, 0) 100%),
-    url('https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&q=80&w=2000') center 30%/cover no-repeat;
+    linear-gradient(to right, rgba(26, 15, 10, 1) 0%, rgba(26, 15, 10, 0.8) 45%, rgba(26, 15, 10, 0) 100%),
+    url('https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=2100&h=900&q=80&crop=right') right center/cover no-repeat;
 }
 
 /* ── Benefits section background ── */
