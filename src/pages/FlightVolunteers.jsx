@@ -28,12 +28,16 @@ const STATUS_LABELS = {
 const VolCard = ({ post, session }) => (
   <div className="pet-card" style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-      <Link to={`/user/${post.author_id}`} style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', textDecoration: 'none', color: 'inherit' }}>
-        <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: '#FFF7ED', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.4rem' }}>
-          ✈️
-        </div>
-        <div style={{ fontWeight: 700, fontSize: '1rem' }}>{post.origin} → {post.destination}</div>
-      </Link>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+        <Link to={`/user/${post.author_id}`} style={{ textDecoration: 'none', color: 'inherit', flexShrink: 0 }}>
+          <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: '#FFF7ED', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.4rem' }}>
+            ✈️
+          </div>
+        </Link>
+        <Link to={`/post/${post.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+          <div style={{ fontWeight: 700, fontSize: '1rem' }} className="hover-link">{post.origin} → {post.destination}</div>
+        </Link>
+      </div>
       <span className={`badge ${STATUS_LABELS[post.status]?.cls || 'status-still_needed'}`}>
         {STATUS_LABELS[post.status]?.label || 'Available'}
       </span>
@@ -186,7 +190,7 @@ const CalendarView = ({ posts, session }) => {
             {selectedPosts.map(p => (
               <div key={p.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.75rem 1rem', background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: '10px' }}>
                 <div>
-                  <Link to={`/user/${p.author_id}`} style={{ fontWeight: 700, fontSize: '0.9rem' }}>{p.origin} → {p.destination}</Link>
+                  <Link to={`/post/${p.id}`} style={{ fontWeight: 700, fontSize: '0.9rem', color: 'inherit', textDecoration: 'none' }} className="hover-link">{p.origin} → {p.destination}</Link>
                   <div style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', marginTop: '0.15rem' }}>{p.airline || 'Airline not specified'}</div>
                 </div>
                 {session ? (
