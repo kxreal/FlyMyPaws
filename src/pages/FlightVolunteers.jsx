@@ -15,6 +15,13 @@ const parseDate = (str) => {
   return isNaN(d) ? null : d;
 };
 
+const STATUS_LABELS = {
+  still_needed: { label: 'Available', cls: 'status-still_needed' },
+  on_hold:      { label: 'On Hold',   cls: 'status-on_hold' },
+  confirmed:    { label: 'Confirmed', cls: 'status-confirmed' },
+  completed:    { label: 'Completed', cls: 'status-completed' },
+};
+
 // ─────────────────────────────────────────────
 // VolCard (card view)
 // ─────────────────────────────────────────────
@@ -27,7 +34,9 @@ const VolCard = ({ post, session }) => (
         </div>
         <div style={{ fontWeight: 700, fontSize: '1rem' }}>{post.origin} → {post.destination}</div>
       </Link>
-      <span className="badge status-available">Available</span>
+      <span className={`badge ${STATUS_LABELS[post.status]?.cls || 'status-still_needed'}`}>
+        {STATUS_LABELS[post.status]?.label || 'Available'}
+      </span>
     </div>
 
     <div style={{ fontSize: '0.825rem', color: 'var(--color-text-muted)', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
@@ -287,6 +296,7 @@ const FlightVolunteers = ({ session }) => {
         .from('posts')
         .select('*')
         .eq('post_type', 'volunteer')
+        .neq('status', 'completed')
         .eq('is_hidden', false)
         .order('flight_date', { ascending: true });
       setAllPosts(data || []);
