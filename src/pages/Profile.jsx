@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { User, LogOut, Info, ShieldAlert, Loader2 } from 'lucide-react';
+import { User, LogOut, Info, ShieldAlert, Loader2, Plane } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import Toast from '../components/Toast';
 import EditPostModal from '../components/EditPostModal';
@@ -59,7 +59,7 @@ const Profile = () => {
     // Reviews
     const { data: revs } = await supabase
       .from('reviews')
-      .select('*, reviewer:profiles!reviewer_id(username)')
+      .select('*, reviewer:profiles!reviewer_id(username), post:posts(id, pet_name, origin, destination, post_type)')
       .eq('reviewee_id', userId)
       .order('created_at', { ascending: false });
     setMyReviews(revs || []);
@@ -312,6 +312,14 @@ const Profile = () => {
                   </div>
                 </div>
                 {r.comment && <p style={{ margin: 0, fontSize: '0.85rem', color: 'var(--color-text-muted)', fontStyle: 'italic' }}>"{r.comment}"</p>}
+                {r.post && (
+                  <div style={{ fontSize: '0.75rem', color: 'var(--color-primary)', marginTop: '0.4rem', display: 'flex', alignItems: 'center' }}>
+                    <Plane size={12} style={{ marginRight: '4px' }} />
+                    <Link to={`/post/${r.post.id}`} style={{ color: 'inherit', textDecoration: 'none', fontWeight: 600 }}>
+                      Re: {r.post.post_type === 'volunteer' ? 'Volunteer Flight' : (r.post.pet_name || 'Pet')} ({r.post.origin} → {r.post.destination})
+                    </Link>
+                  </div>
+                )}
               </div>
             ))}
           </div>

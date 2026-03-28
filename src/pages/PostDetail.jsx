@@ -394,6 +394,7 @@ const PostDetail = () => {
       {revieweeIdToRate && (
         <ReviewModal
           revieweeId={revieweeIdToRate}
+          postId={post?.id}
           onClose={() => setRevieweeIdToRate(null)}
           onSubmitted={() => setRevieweeIdToRate(null)}
         />

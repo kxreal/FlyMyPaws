@@ -565,7 +565,7 @@ const Messages = () => {
                         <div style={{ fontSize: '1.5rem' }}>🎉</div>
                         <strong>Flight Officially Completed!</strong>
                         <p style={{ fontSize: '0.85rem', margin: 0, opacity: 0.85 }}>Thank you for coordinating through FlyMyPaws.</p>
-                        <button onClick={() => setReviewTarget(selectedConv.profile)} className="btn btn-sm" style={{ background: '#166534', color: '#fff', width: '100%', marginTop: '0.25rem', padding: '0.6rem' }}>
+                        <button onClick={() => setReviewTarget({ profile: selectedConv.profile, postId: msg.content.split(':')[1] })} className="btn btn-sm" style={{ background: '#166534', color: '#fff', width: '100%', marginTop: '0.25rem', padding: '0.6rem' }}>
                           Rate / Edit Review
                         </button>
                       </div>
@@ -689,8 +689,9 @@ const Messages = () => {
       
       {reviewTarget && (
         <ReviewModal
-          revieweeId={reviewTarget.id}
-          revieweeUsername={reviewTarget.username}
+          revieweeId={reviewTarget.profile?.id || reviewTarget.id}
+          revieweeUsername={reviewTarget.profile?.username || reviewTarget.username}
+          postId={reviewTarget.postId}
           onClose={() => setReviewTarget(null)}
           onSubmitted={() => setReviewTarget(null)}
         />

@@ -37,7 +37,7 @@ const PublicProfile = () => {
     const [{ data: prof }, { data: userPosts }, { data: userReviews }] = await Promise.all([
       supabase.from('profiles').select('id, username, bio, flight_history, role').eq('id', userId).single(),
       supabase.from('posts').select('*').or(`author_id.eq.${userId},assigned_user_id.eq.${userId}`).order('created_at', { ascending: false }),
-      supabase.from('reviews').select('*, reviewer:profiles!reviews_reviewer_id_fkey(username)').eq('reviewee_id', userId).order('created_at', { ascending: false }),
+      supabase.from('reviews').select('*, reviewer:profiles!reviews_reviewer_id_fkey(username), post:posts(id, pet_name, origin, destination, post_type)').eq('reviewee_id', userId).order('created_at', { ascending: false }),
     ]);
     setProfile(prof);
     setPosts(userPosts || []);
@@ -192,7 +192,15 @@ const PublicProfile = () => {
                   <span style={{ fontWeight: 600, fontSize: '0.875rem' }}>{r.reviewer?.username || 'Anonymous'}</span>
                   <StarRating rating={r.rating} />
                 </div>
-                {r.comment && <p style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', lineHeight: '1.6' }}>{r.comment}</p>}
+                {r.comment && <p style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', lineHeight: '1.6', fontStyle: 'italic' }}>"{r.comment}"</p>}
+                {r.post && (
+                  <div style={{ fontSize: '0.75rem', color: 'var(--color-primary)', marginTop: '0.4rem', display: 'flex', alignItems: 'center' }}>
+                    <Plane size={12} style={{ marginRight: '4px' }} />
+                    <Link to={`/post/${r.post.id}`} style={{ color: 'inherit', textDecoration: 'none', fontWeight: 600 }}>
+                      Re: {r.post.post_type === 'volunteer' ? 'Volunteer Flight' : (r.post.pet_name || 'Pet')} ({r.post.origin} → {r.post.destination})
+                    </Link>
+                  </div>
+                )}
               </div>
             ))}
           </div>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { X, Star, Loader2 } from 'lucide-react';
 
-const ReviewModal = ({ revieweeId, revieweeUsername, onClose, onSubmitted }) => {
+const ReviewModal = ({ revieweeId, revieweeUsername, postId, onClose, onSubmitted }) => {
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const [comment, setComment] = useState('');
@@ -54,12 +54,14 @@ const ReviewModal = ({ revieweeId, revieweeUsername, onClose, onSubmitted }) => 
       const res = await supabase.from('reviews').update({
         rating: rating,
         comment: comment || null,
+        ...(postId ? { post_id: postId } : {})
       }).eq('id', existingReviewId);
       dbError = res.error;
     } else {
       const res = await supabase.from('reviews').insert({
         reviewer_id: session.user.id,
         reviewee_id: revieweeId,
+        post_id: postId || null,
         rating: rating,
         comment: comment || null,
       });

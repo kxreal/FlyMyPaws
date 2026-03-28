@@ -102,6 +102,7 @@ CREATE TABLE public.reviews (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   reviewer_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE NOT NULL,
   reviewee_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE NOT NULL,
+  post_id UUID REFERENCES public.posts(id) ON DELETE SET NULL,
   rating INTEGER CHECK (rating >= 1 AND rating <= 5) NOT NULL,
   comment TEXT,
   created_at TIMESTAMPTZ DEFAULT now()
