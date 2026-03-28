@@ -401,18 +401,31 @@ a:hover { color: var(--color-primary-dark); }
     url('/hero-bg.png') right center/cover no-repeat;
 }
 
+@media (min-width: 641px) {
+  .mobile-break { display: none; }
+}
+
 @media (max-width: 640px) {
   .hero-bg {
     padding: 2.25rem 0 2.25rem;
     min-height: 240px;
+    background: 
+      linear-gradient(to right, rgba(255, 243, 239, 1) 0%, rgba(255, 243, 239, 0.95) 55%, rgba(255, 243, 239, 0) 100%),
+      url('/hero-bg.png') right 15% center / 250% auto no-repeat !important;
+  }
+  .dark .hero-bg {
+    background: 
+      linear-gradient(to right, rgba(26, 15, 10, 1) 0%, rgba(26, 15, 10, 0.95) 55%, rgba(26, 15, 10, 0) 100%),
+      url('/hero-bg.png') right 15% center / 250% auto no-repeat !important;
   }
   .hero-bg h1 {
-    font-size: 1.8rem !important; /* Make title slightly smaller so text doesn't wrap as deep */
-    margin-bottom: 0.75rem !important;
+    font-size: 1.95rem !important;
+    margin-bottom: 0.6rem !important;
   }
-  .hero-bg p {
-    font-size: 0.95rem !important;
+  .hero-bg p.hero-desc {
+    font-size: 0.9rem !important;
     margin-bottom: 0 !important;
+    color: var(--color-text-main) !important;
   }
   .hero-buttons {
     display: none !important;

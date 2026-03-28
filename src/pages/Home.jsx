@@ -155,11 +155,11 @@ const Home = ({ session }) => {
           </span>
 
           <h1 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 800, lineHeight: 1.2, marginBottom: '1.25rem', maxWidth: '560px' }}>
-            Fly a Pet to Their{' '}
+            Fly a Pet to Their<br className="mobile-break" />{' '}
             <span style={{ color: 'var(--color-primary)' }}>Forever Home</span>
           </h1>
 
-          <p style={{ color: 'var(--color-text-muted)', fontSize: '1.05rem', maxWidth: '480px', marginBottom: '2rem', lineHeight: 1.7 }}>
+          <p className="hero-desc" style={{ color: 'var(--color-text-sub)', fontSize: '1.05rem', maxWidth: '480px', marginBottom: '2rem', lineHeight: 1.7 }}>
             FlyMyPaws connects passionate flight volunteers with rescues and relocating families.
             Help a stray or a beloved pet travel safely across the globe.
           </p>
