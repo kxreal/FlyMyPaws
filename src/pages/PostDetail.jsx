@@ -243,7 +243,9 @@ const PostDetail = () => {
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
                 <h1 style={{ fontSize: '1.75rem' }}>{post.post_type === 'volunteer' ? 'Flight Volunteer' : (post.pet_name || 'Unnamed Pet')}</h1>
-                <span className={`badge ${s.cls}`}>{s.label}</span>
+                {!(post.post_type === 'volunteer' && post.status === 'still_needed') && (
+                  <span className={`badge ${s.cls}`}>{s.label}</span>
+                )}
               </div>
               {post.breed && <p style={{ color: 'var(--color-text-muted)', marginTop: '0.25rem', fontSize: '0.95rem' }}>{post.breed}</p>}
             </div>
@@ -253,14 +255,15 @@ const PostDetail = () => {
           </div>
 
           {/* Meta pills */}
+          {/* Meta pills */}
           <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '1.5rem' }}>
             {[
-              { icon: <MapPin size={14} />, text: `${post.origin} → ${post.destination}` },
-              { icon: <Calendar size={14} />, text: post.flight_date || 'Flexible date' },
-              post.weight_kg && { icon: <Weight size={14} />, text: `${post.weight_kg} kg` },
-              post.airline && { icon: <Plane size={14} />, text: post.airline },
+              { id: 'route', icon: <MapPin size={14} />, text: `${post.origin} → ${post.destination}`, bg: 'var(--color-primary-bg)', color: 'var(--color-primary-dark)' },
+              { id: 'date', icon: <Calendar size={14} />, text: post.flight_date || 'Flexible date', bg: '#E0E7FF', color: '#4338CA' },
+              post.weight_kg && { id: 'weight', icon: <Weight size={14} />, text: `${post.weight_kg} kg`, bg: '#FEF3C7', color: '#B45309' },
+              post.airline && { id: 'airline', icon: <Plane size={14} />, text: post.airline, bg: '#FCE7F3', color: '#BE185D' },
             ].filter(Boolean).map((m, i) => (
-              <span key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', padding: '0.35rem 0.8rem', background: 'var(--color-primary-bg)', color: 'var(--color-primary-dark)', borderRadius: '999px', fontSize: '0.82rem', fontWeight: 500 }}>
+              <span key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', padding: '0.35rem 0.8rem', background: m.bg, color: m.color, borderRadius: '999px', fontSize: '0.82rem', fontWeight: 600 }}>
                 {m.icon} {m.text}
               </span>
             ))}
