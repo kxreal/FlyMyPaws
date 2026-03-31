@@ -13,6 +13,8 @@ import PublicProfile from './pages/PublicProfile';
 import PostDetail from './pages/PostDetail';
 import Onboarding from './pages/Onboarding';
 import UpdatePassword from './pages/UpdatePassword';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsOfService from './pages/TermsOfService';
 import { Moon, Sun, User, MessageCircle, Home as HomeIcon, PawPrint, Plane, LogOut } from 'lucide-react';
 
 const App = () => {
@@ -186,6 +188,8 @@ const App = () => {
           <Route path="/user/:id" element={<PublicProfile />} />
           <Route path="/post/:id" element={<PostDetail />} />
           <Route path="/update-password" element={<UpdatePassword session={session} />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/onboarding" element={<Onboarding />} />
         </Routes>
       </main>
@@ -227,6 +231,8 @@ const App = () => {
                 <p style={{ fontWeight: 600, fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--color-text-muted)', marginBottom: '0.75rem' }}>LEGAL</p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                   <Link to="/#disclaimer" style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem' }}>Disclaimer</Link>
+                  <Link to="/privacy-policy" style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem' }}>Privacy Policy</Link>
+                  <Link to="/terms-of-service" style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem' }}>Terms of Service</Link>
                   {userRole === 'admin' && (
                     <Link to="/admin" style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem' }}>Admin</Link>
                   )}
