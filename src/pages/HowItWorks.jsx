@@ -19,19 +19,6 @@ const HowItWorks = () => {
           </div>
         </section>
 
-        {/* ── Our Mission ── */}
-        <section style={{ marginBottom: '4rem' }}>
-          <div style={{ padding: '2rem', background: 'linear-gradient(135deg, var(--color-primary-bg) 0%, rgba(var(--color-primary-rgb), 0.05) 100%)', borderRadius: '1rem', border: '1px solid rgba(var(--color-primary-rgb), 0.2)' }}>
-            <h2 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '1.5rem', color: 'var(--color-primary)' }}>Our Mission</h2>
-            <div style={{ color: 'var(--color-text)', lineHeight: 1.8, fontSize: '1.05rem' }}>
-              <p style={{ marginBottom: '1.5rem' }}>The world is more connected than ever — and yet, for millions of rescued animals, borders remain the greatest barrier between them and the loving home they deserve.</p>
-              <p style={{ marginBottom: '1.5rem' }}>At FlyMyPaws, our mission is to make the world more accessible for pets in need. We believe that no pet should be abandoned simply because their owner is moving abroad, and no animal should remain in a shelter simply because their forever family lives on the other side of the world. Distance should never determine destiny. By connecting travelers with rescued animals and relocating families, we aim to improve the global mobility of pets and make cross-border pet travel more affordable and achievable.</p>
-              <p style={{ marginBottom: '1.5rem' }}>International transport costs are often one of the biggest barriers preventing animals from reaching their new homes. By matching pets with flight volunteers who are already traveling, we help reduce these costs and make overseas adoption a more realistic option for rescuers and adopters around the world.</p>
-              <p style={{ marginBottom: '1.5rem' }}>At the same time, we hope to support pet owners who are relocating internationally. Moving to another country can be complicated and expensive, and sadly some pets are abandoned when families feel they have no other option. Through our platform, we aim to help families keep their beloved companions or safely relocate them to caring homes.</p>
-              <p style={{ marginBottom: '0' }}>By building a global community of compassionate travelers, rescuers, and pet lovers, we hope to give more animals the chance to travel, find loving homes, and live the life they deserve.</p>
-            </div>
-          </div>
-        </section>
 
         {/* ── How It Works ── */}
         <section style={{ marginBottom: '4rem' }}>

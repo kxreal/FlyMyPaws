@@ -231,42 +231,53 @@ const Home = ({ session }) => {
       )}
 
       {/* ── Mission Section ── */}
-      <section style={{ background: 'var(--color-surface)', borderTop: '1px solid var(--color-border)', padding: '4rem 0' }}>
-        <div className="container mission-grid">
-          {/* Left: Text */}
-          <div>
+      <section style={{ padding: '5rem 0', background: 'var(--color-surface)', borderTop: '1px solid var(--color-border)', boxShadow: 'inset 0 4px 20px rgba(0,0,0,0.01)' }}>
+        <div className="container">
+          <div style={{ maxWidth: '840px', margin: '0 auto 4rem', textAlign: 'center' }}>
             <span style={{
               display: 'inline-flex', gap: '0.4rem', alignItems: 'center',
               background: 'var(--color-primary-bg)', color: 'var(--color-primary)',
-              borderRadius: '999px', padding: '0.3rem 0.85rem',
-              fontSize: '0.78rem', fontWeight: 600, marginBottom: '1rem'
+              borderRadius: '999px', padding: '0.4rem 1rem',
+              fontSize: '0.85rem', fontWeight: 700, marginBottom: '1.5rem',
             }}>
               Our Mission
             </span>
-            <h2 style={{ fontSize: '1.65rem', marginBottom: '1rem' }}>Built for pets who can't travel alone</h2>
-            <p style={{ color: 'var(--color-text-muted)', marginBottom: '1rem', lineHeight: 1.8 }}>
-              We believe every animal deserves a loving home. Our platform bridges the gap between countries, facilitating safe travel for rescued animals and relocating families by connecting them with generous travelers.
-
-            </p>
-            {/* Second paragraph placeholder
-            <p style={{ color: 'var(--color-text-muted)', lineHeight: 1.8 }}>
-              We believe every pet deserves a calm, caring companion on their journey.
-              Our platform makes the match easy, safe, and transparent.
-            </p>*/}
+            <h2 style={{ fontSize: 'clamp(2rem, 3vw, 2.5rem)', fontWeight: 800, marginBottom: '2rem', lineHeight: 1.3, color: 'var(--color-text-main)' }}>
+              Built for pets who can't travel alone
+            </h2>
+            
+            <div style={{ color: 'var(--color-text)', fontSize: '1.1rem', lineHeight: 1.8, textAlign: 'left', background: 'var(--color-bg)', padding: '2.5rem', borderRadius: '1.5rem', border: '1px solid var(--color-border)' }}>
+              <p style={{ marginBottom: '1.5rem' }}>
+                The world is more connected than ever — and yet, for millions of rescued animals, borders remain the greatest barrier between them and the loving home they deserve.
+              </p>
+              <p style={{ marginBottom: '1.5rem' }}>
+                At FlyMyPaws, our mission is to make the world more accessible for pets in need. We believe that no pet should be abandoned because their owner is moving abroad, and no animal should remain in a shelter simply because their forever family lives on the other side of the world. <strong style={{ color: 'var(--color-primary)' }}>Distance should never determine destiny.</strong> By connecting compassionate travelers with rescued animals and relocating families, we aim to make cross-border pet travel more affordable and achievable.
+              </p>
+              <p style={{ marginBottom: '0' }}>
+                International transport costs are often one of the biggest roadblocks preventing animals from reaching their new homes. By matching pets with flight volunteers who are already traveling, we drastically reduce these hurdles. We are building a global community where a simple journey can give an animal a second chance at life.
+              </p>
+            </div>
           </div>
 
           {/* Right: Feature Grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.5rem' }}>
             {[
-              { icon: <Heart size={20} color="var(--color-primary)" />, title: 'Pet Welfare First', desc: 'Every match prioritises the animal\'s comfort and safety' },
-              { icon: <ShieldCheck size={20} color="var(--color-primary)" />, title: 'Verified Community', desc: 'User profiles with reviews from past transport experiences' },
-              { icon: <Plane size={20} color="var(--color-primary)" />, title: 'Global Routes', desc: 'Matching across hundreds of international flight routes' },
-              { icon: <Star size={20} color="var(--color-primary)" />, title: 'Trusted Reviews', desc: 'Honest ratings help you choose the right buddy' },
+              { icon: <Heart size={24} color="var(--color-primary)" />, title: 'Pet Welfare First', desc: 'Every match prioritises the animal\'s comfort and safety.' },
+              { icon: <ShieldCheck size={24} color="var(--color-primary)" />, title: 'Verified Community', desc: 'User profiles with reviews from past transport experiences.' },
+              { icon: <Plane size={24} color="var(--color-primary)" />, title: 'Global Routes', desc: 'Matching across hundreds of international flight routes.' },
+              { icon: <Star size={24} color="var(--color-primary)" />, title: 'Trusted Reviews', desc: 'Honest ratings help you choose the right flight buddy.' },
             ].map(f => (
-              <div key={f.title} className="card" style={{ padding: '1.25rem' }}>
-                <div style={{ marginBottom: '0.6rem' }}>{f.icon}</div>
-                <div style={{ fontWeight: 700, fontSize: '0.9rem', marginBottom: '0.3rem' }}>{f.title}</div>
-                <div style={{ color: 'var(--color-text-muted)', fontSize: '0.82rem', lineHeight: 1.5 }}>{f.desc}</div>
+              <div key={f.title} className="card" style={{ padding: '2rem 1.5rem', textAlign: 'center', background: 'var(--color-bg)', border: '1px solid var(--color-border)', transition: 'transform 0.2s' }}
+                onMouseOver={e => e.currentTarget.style.transform = 'translateY(-4px)'}
+                onMouseOut={e => e.currentTarget.style.transform = 'none'}
+              >
+                <div style={{ marginBottom: '1rem', display: 'flex', justifyContent: 'center' }}>
+                  <div style={{ padding: '0.8rem', background: 'var(--color-primary-bg)', borderRadius: '50%' }}>
+                    {f.icon}
+                  </div>
+                </div>
+                <div style={{ fontWeight: 800, fontSize: '1.05rem', marginBottom: '0.5rem', color: 'var(--color-text-main)' }}>{f.title}</div>
+                <div style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', lineHeight: 1.6 }}>{f.desc}</div>
               </div>
             ))}
           </div>
