@@ -15,6 +15,7 @@ import Onboarding from './pages/Onboarding';
 import UpdatePassword from './pages/UpdatePassword';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
+import About from './pages/About';
 import { Moon, Sun, User, MessageCircle, Home as HomeIcon, PawPrint, Plane, LogOut } from 'lucide-react';
 
 const App = () => {
@@ -132,6 +133,10 @@ const App = () => {
               <span className="full-text">Home</span>
               <span className="short-text">Home</span>
             </NavLink>
+            <NavLink to="/about" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>
+              <span className="full-text">About Us</span>
+              <span className="short-text">About</span>
+            </NavLink>
             <NavLink to="/pets" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>
               <PawPrint size={20} className="nav-icon" />
               <span className="full-text">Pets Needing Help</span>
@@ -190,6 +195,7 @@ const App = () => {
           <Route path="/update-password" element={<UpdatePassword session={session} />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
+          <Route path="/about" element={<About />} />
           <Route path="/onboarding" element={<Onboarding />} />
         </Routes>
       </main>
@@ -225,6 +231,7 @@ const App = () => {
                   <Link to="/pets" style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem' }}>Pets Needing Help</Link>
                   <Link to="/volunteers" style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem' }}>Flight Volunteers</Link>
                   <Link to="/create-post" style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem' }}>Post a Request</Link>
+                  <Link to="/about" style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem' }}>About Us</Link>
                 </div>
               </div>
               <div>
