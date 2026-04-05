@@ -1,22 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  /* Warm Color Palette */
-  --color-primary: #FF7043;
-  --color-primary-light: #FFA270;
-  --color-primary-dark: #C63F17;
-  --color-primary-bg: #FFF3EF;
+  /* Warm Coffee Palette */
+  --color-primary: #C8A28E;
+  --color-primary-light: #E4C8B6;
+  --color-primary-dark: #A67E6B;
+  --color-primary-bg: #F4EBE4;
 
-  --color-secondary: #26A69A;
-  --color-secondary-light: #64D8CB;
+  --color-secondary: #8B7355;
+  --color-secondary-light: #A79075;
 
-  --color-background: #F9FAFB;
+  --color-background: #FAF7F2;
   --color-surface: #FFFFFF;
-  --color-border: #E5E7EB;
+  --color-border: #E5DCD1;
 
-  --color-text-main: #1F2937;
-  --color-text-sub: #374151;
-  --color-text-muted: #6B7280;
+  --color-text-main: #5E4639;
+  --color-text-sub: #7A6255;
+  --color-text-muted: #9E897F;
 
   --color-success: #10B981;
   --color-warning: #F59E0B;
@@ -25,7 +25,7 @@
   --color-error-bg: #FEF2F2;
 
   /* Typography */
-  --font-family-base: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-family-base: 'Brandon Grotesque', 'BrandonGrotesque', 'Outfit', system-ui, -apple-system, sans-serif;
 
   /* Spacing */
   --spacing-xs: 0.25rem;

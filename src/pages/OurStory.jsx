@@ -7,7 +7,6 @@ const OurStory = () => {
         
         <section style={{ marginBottom: '2rem' }}>
           <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-            <span style={{ fontSize: '2.5rem', display: 'block', marginBottom: '0.5rem' }}>📖</span>
             <h1 style={{ fontSize: '2.5rem', fontWeight: 800 }}>Our Story</h1>
           </div>
           
