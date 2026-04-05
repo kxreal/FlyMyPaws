@@ -17,7 +17,7 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
 import OurStory from './pages/OurStory';
 import HowItWorks from './pages/HowItWorks';
-import { Moon, Sun, User, MessageCircle, Home as HomeIcon, PawPrint, Plane, LogOut } from 'lucide-react';
+import { Moon, Sun, User, MessageCircle, Home as HomeIcon, PawPrint, Plane, LogOut, BookOpen, HelpCircle } from 'lucide-react';
 
 const App = () => {
   const [session, setSession] = useState(null);
@@ -135,10 +135,12 @@ const App = () => {
               <span className="short-text">Home</span>
             </NavLink>
             <NavLink to="/how-it-works" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>
+              <HelpCircle size={20} className="nav-icon" />
               <span className="full-text">How It Works</span>
               <span className="short-text">Guide</span>
             </NavLink>
             <NavLink to="/our-story" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>
+              <BookOpen size={20} className="nav-icon" />
               <span className="full-text">Our Story</span>
               <span className="short-text">Story</span>
             </NavLink>
