@@ -22,9 +22,9 @@ const StatCard = ({ icon, value, label }) => (
 const PetCardMini = ({ post }) => {
   const statusMap = {
     still_needed: { label: 'Needs Volunteer', cls: 'status-still_needed' },
-    on_hold:      { label: 'On Hold',         cls: 'status-on_hold' },
-    confirmed:    { label: 'Confirmed',        cls: 'status-confirmed' },
-    completed:    { label: 'Completed',        cls: 'status-completed' },
+    on_hold: { label: 'On Hold', cls: 'status-on_hold' },
+    confirmed: { label: 'Confirmed', cls: 'status-confirmed' },
+    completed: { label: 'Completed', cls: 'status-completed' },
   };
   const s = statusMap[post.status] || statusMap.still_needed;
   const photo = post.photos?.[0];
@@ -46,7 +46,7 @@ const PetCardMini = ({ post }) => {
         <div style={{ position: 'relative', width: '100%', aspectRatio: '1/1', background: 'var(--color-primary-bg)', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           {photo
             ? <img src={photo} alt={post.pet_name} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
-            : <span style={{ fontSize: '3.5rem' }}>{post.pet_emoji || '🐾'}</span>
+            : <div style={{ width: '100%', height: '100%', background: 'var(--color-primary-light)', opacity: 0.2 }} />
           }
           {/* Urgent badge */}
           {post.is_urgent && (
@@ -151,7 +151,7 @@ const Home = ({ session }) => {
             fontSize: '0.8rem', fontWeight: 600, color: 'var(--color-primary)',
             marginBottom: '1.5rem'
           }}>
-            <PawPrint size={13} /> Pet-Friendly Flight Matching
+            Pet-Friendly Flight Matching
           </span>
 
           <h1 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 800, lineHeight: 1.2, marginBottom: '1.25rem', maxWidth: '560px' }}>
@@ -166,10 +166,10 @@ const Home = ({ session }) => {
 
           <div className="hero-buttons" style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
             <Link to="/pets" className="btn btn-primary btn-lg">
-              <PawPrint size={16} /> View Pets Needing Help
+              View Pets Needing Help
             </Link>
             <Link to="/create-post" className="btn btn-outline btn-lg">
-              <Plane size={16} /> Become a Flight Buddy
+              Become a Flight Buddy
             </Link>
           </div>
         </div>
@@ -245,7 +245,7 @@ const Home = ({ session }) => {
             <h2 style={{ fontSize: 'clamp(2rem, 3vw, 2.5rem)', fontWeight: 800, marginBottom: '2rem', lineHeight: 1.3, color: 'var(--color-text-main)' }}>
               Built for pets who can't travel alone
             </h2>
-            
+
             <div style={{ color: 'var(--color-text)', fontSize: '1.1rem', lineHeight: 1.8, textAlign: 'left', background: 'var(--color-bg)', padding: '2.5rem', borderRadius: '1.5rem', border: '1px solid var(--color-border)' }}>
               <p style={{ marginBottom: '1.5rem' }}>
                 The world is more connected than ever — and yet, for millions of rescued animals, borders remain the greatest barrier between them and the loving home they deserve.
@@ -312,7 +312,6 @@ const Home = ({ session }) => {
       <section id="disclaimer" style={{ padding: '2.5rem 0' }}>
         <div className="container">
           <div className="disclaimer-box">
-            <span style={{ fontSize: '1.2rem' }}>⚠️</span>
             <div>
               <strong style={{ color: 'var(--color-error)', fontSize: '0.9rem' }}>Disclaimer</strong>
               <p style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', marginTop: '0.3rem', lineHeight: 1.6 }}>

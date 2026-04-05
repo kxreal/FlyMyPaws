@@ -17,6 +17,11 @@ const OurStory = () => {
             <p style={{ marginBottom: '1.5rem' }}>It didn't take long. Within minutes, that careful shyness melted away entirely. She rolled onto her back and offered us her belly — the most trusting thing a dog can do. I quickly went back into the shop to buy a can of dog food and asked the staff if she belonged to anyone. They told us no — she was a stray, fed by kind people nearby.</p>
             <p style={{ marginBottom: '1.5rem' }}>But when I opened the food for her, she didn’t eat. Instead, she simply stayed close to us, leaning in, asking only to be touched — as if what she truly needed was not food, but affection. Just the feeling of being loved by a human, even for a moment.</p>
             <p style={{ marginBottom: '1.5rem' }}>After spending some time with her, we turned to head back to our hotel. To our surprise, she followed us. At one point she sprinted off chasing a small animal, but she came back, she always came right back to us.</p>
+            
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '2.5rem' }}>
+              <img src="/bubu/1.png" alt="Bubu" style={{ width: '100%', borderRadius: '1rem', objectFit: 'cover', aspectRatio: '4/3' }} />
+              <img src="/bubu/2.png" alt="Bubu" style={{ width: '100%', borderRadius: '1rem', objectFit: 'cover', aspectRatio: '4/3' }} />
+            </div>
             <p style={{ marginBottom: '1.5rem', fontWeight: 'bold' }}>That was the moment our hearts sank.</p>
             <p style={{ marginBottom: '1.5rem' }}>In all our travels, we had never met an animal that refused to leave our side. We suddenly felt trapped between love and reality. We wanted so badly to take her home and give her a family — but there were so many obstacles. The biggest one seemed almost impossible: how could we bring her all the way to the United Kingdom?</p>
             <p style={{ marginBottom: '1.5rem' }}>Eventually we walked back toward the convenience store, hoping she would stay there. But she continued to follow us. When we tried to signal that she should remain, she sensed something was wrong. She became anxious, gently grabbing my hand and bag with her mouth, as if begging us not to leave.</p>
@@ -25,8 +30,13 @@ const OurStory = () => {
             <p style={{ marginBottom: '1.5rem' }}>In that instant, I completely broke down. I felt as though I had abandoned her.</p>
             <p style={{ marginBottom: '1.5rem' }}>Back at the hotel, I couldn’t escape that look in her eyes. For two days I cried uncontrollably. Before leaving Phuket, I secretly went back one last time to observe her from a distance. She looked lifeless again — nothing like the joyful dog who had played with us.</p>
             <p style={{ marginBottom: '1.5rem' }}>People often say you should never lock eyes with a stray dog. And it’s true — but not because they might hurt you. It’s because once you see the purity and hope in their eyes, you may find it impossible to walk away. The quiet expectations of an animal are something your heart cannot bear to betray.</p>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '2.5rem', marginTop: '1.5rem' }}>
+              <img src="/bubu/3.png" alt="Bubu smiling" style={{ width: '100%', borderRadius: '1rem', objectFit: 'cover', aspectRatio: '4/3' }} />
+              <img src="/bubu/4.png" alt="Bubu waiting" style={{ width: '100%', borderRadius: '1rem', objectFit: 'cover', aspectRatio: '4/3' }} />
+            </div>
             <p style={{ marginBottom: '1.5rem', fontWeight: 'bold', fontStyle: 'italic' }}>Because of one look, I made a decision: I would give her a home.</p>
-            <p style={{ marginBottom: '1.5rem' }}>After returning to the UK, I contacted a local dog resort in Phuket to help locate her and arrange a health check. The blood test results revealed something heartbreaking — she was actually very ill. She had blood parasites, and without treatment she likely would not have survived another month.</p>
+            <p style={{ marginBottom: '1.5rem' }}>After returning to the UK, I contacted <a href="https://www.phuket-dog-resort.com/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-primary-dark)', fontWeight: 600, textDecoration: 'underline' }}>Phuket Dog Resort Co., Ltd</a>, a company with extensive experience in animal rescue and relocation, to help locate her and arrange a health check. The blood test results revealed something heartbreaking — she was actually very ill. She had blood parasites, and without treatment she likely would not have survived another month.</p>
             <p style={{ marginBottom: '1.5rem' }}>The team also helped confirm that she truly had no owner. Treatment began immediately. They arranged her care, her accommodation, and the long, complicated process of preparing all the documents required for international travel.</p>
             <p style={{ marginBottom: '1.5rem', fontWeight: 'bold', fontSize: '1.2rem', color: 'var(--color-primary)' }}>At the same time, we gave her a name - Bubu.</p>
             <p style={{ marginBottom: '1.5rem' }}>Thankfully, Bubu responded well to treatment. Although blood parasites cannot be completely cured, her health improved dramatically.</p>
