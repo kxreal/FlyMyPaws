@@ -19,7 +19,7 @@ import OurStory from './pages/OurStory';
 import HowItWorks from './pages/HowItWorks';
 import { Moon, Sun, User, MessageCircle, Home as HomeIcon, PawPrint, Plane, LogOut, BookOpen, HelpCircle } from 'lucide-react';
 const BrandLogo = ({ size = 'default' }) => {
-  const h = size === 'small' ? 52 : 56;
+  const h = size === 'small' ? 52 : 58;
   return (
     <img src="/logo-full.png" alt="Fly My Paws" style={{ height: h, width: 'auto', display: 'block', flexShrink: 0 }} />
   );
