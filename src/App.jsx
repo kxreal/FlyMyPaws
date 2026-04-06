@@ -21,7 +21,7 @@ import { Moon, Sun, User, MessageCircle, Home as HomeIcon, PawPrint, Plane, LogO
 const BrandLogo = ({ size = 'default' }) => {
   const h = size === 'small' ? 44 : 56;
   return (
-    <img src="/logo-full.png" alt="Fly My Paws" style={{ height: h, width: 'auto', display: 'block', flexShrink: 0 }} />
+    <img src="/logo.png" alt="Fly My Paws" style={{ height: h, width: 'auto', display: 'block', flexShrink: 0 }} />
   );
 };
 
