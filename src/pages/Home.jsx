@@ -22,9 +22,9 @@ const StatCard = ({ icon, value, label }) => (
 const PetCardMini = ({ post }) => {
   const statusMap = {
     still_needed: { label: 'Needs Volunteer', cls: 'status-still_needed' },
-    on_hold:      { label: 'On Hold',         cls: 'status-on_hold' },
-    confirmed:    { label: 'Confirmed',        cls: 'status-confirmed' },
-    completed:    { label: 'Completed',        cls: 'status-completed' },
+    on_hold: { label: 'On Hold', cls: 'status-on_hold' },
+    confirmed: { label: 'Confirmed', cls: 'status-confirmed' },
+    completed: { label: 'Completed', cls: 'status-completed' },
   };
   const s = statusMap[post.status] || statusMap.still_needed;
   const photo = post.photos?.[0];
@@ -46,7 +46,7 @@ const PetCardMini = ({ post }) => {
         <div style={{ position: 'relative', width: '100%', aspectRatio: '1/1', background: 'var(--color-primary-bg)', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           {photo
             ? <img src={photo} alt={post.pet_name} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
-            : <span style={{ fontSize: '3.5rem' }}>{post.pet_emoji || '🐾'}</span>
+            : <div style={{ width: '100%', height: '100%', background: 'var(--color-primary-light)', opacity: 0.2 }} />
           }
           {/* Urgent badge */}
           {post.is_urgent && (
@@ -59,7 +59,7 @@ const PetCardMini = ({ post }) => {
         {/* Info */}
         <div style={{ padding: '0.65rem 0.85rem' }}>
           <div style={{ fontWeight: 700, fontSize: '0.9rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{post.pet_name || 'Unknown'}</div>
-          <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginTop: '0.2rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>✈️ {post.origin} → {post.destination}</div>
+          <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginTop: '0.2rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{post.origin} → {post.destination}</div>
         </div>
       </div>
     </Link>
@@ -82,14 +82,14 @@ const VolCardMini = ({ post }) => (
     >
       {/* Slim banner — emoji only, no need for full square */}
       <div style={{ position: 'relative', width: '100%', height: '56px', background: 'linear-gradient(135deg, var(--color-primary-bg) 0%, #e0f7ff 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <span style={{ fontSize: '1.75rem' }}>✈️</span>
+        <Plane size={24} color="var(--color-primary)" />
         <span className="badge status-available" style={{ position: 'absolute', top: '6px', right: '8px', fontSize: '0.68rem' }}>Available</span>
       </div>
 
       {/* Info */}
       <div style={{ padding: '0.65rem 0.85rem' }}>
         <div style={{ fontWeight: 700, fontSize: '0.9rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{post.origin} → {post.destination}</div>
-        <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginTop: '0.2rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>📅 {post.flight_date || 'Flexible'}{post.airline ? ` · ${post.airline}` : ''}</div>
+        <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginTop: '0.2rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{post.flight_date || 'Flexible'}{post.airline ? ` · ${post.airline}` : ''}</div>
       </div>
     </div>
   </Link>
@@ -151,7 +151,7 @@ const Home = ({ session }) => {
             fontSize: '0.8rem', fontWeight: 600, color: 'var(--color-primary)',
             marginBottom: '1.5rem'
           }}>
-            <PawPrint size={13} /> Pet-Friendly Flight Matching
+            Pet-Friendly Flight Matching
           </span>
 
           <h1 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 800, lineHeight: 1.2, marginBottom: '1.25rem', maxWidth: '560px' }}>
@@ -166,10 +166,10 @@ const Home = ({ session }) => {
 
           <div className="hero-buttons" style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
             <Link to="/pets" className="btn btn-primary btn-lg">
-              <PawPrint size={16} /> View Pets Needing Help
+              View Pets Needing Help
             </Link>
             <Link to="/create-post" className="btn btn-outline btn-lg">
-              <Plane size={16} /> Become a Flight Buddy
+              Become a Flight Buddy
             </Link>
           </div>
         </div>
@@ -245,7 +245,7 @@ const Home = ({ session }) => {
             <h2 style={{ fontSize: 'clamp(2rem, 3vw, 2.5rem)', fontWeight: 800, marginBottom: '2rem', lineHeight: 1.3, color: 'var(--color-text-main)' }}>
               Built for pets who can't travel alone
             </h2>
-            
+
             <div style={{ color: 'var(--color-text)', fontSize: '1.1rem', lineHeight: 1.8, textAlign: 'left', background: 'var(--color-bg)', padding: '2.5rem', borderRadius: '1.5rem', border: '1px solid var(--color-border)' }}>
               <p style={{ marginBottom: '1.5rem' }}>
                 The world is more connected than ever — and yet, for millions of rescued animals, borders remain the greatest barrier between them and the loving home they deserve.
@@ -262,10 +262,10 @@ const Home = ({ session }) => {
           {/* Right: Feature Grid */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.5rem' }}>
             {[
-              { icon: <Heart size={24} color="var(--color-primary)" />, title: 'Pet Welfare First', desc: 'Every match prioritises the animal\'s comfort and safety.' },
-              { icon: <ShieldCheck size={24} color="var(--color-primary)" />, title: 'Verified Community', desc: 'User profiles with reviews from past transport experiences.' },
-              { icon: <Plane size={24} color="var(--color-primary)" />, title: 'Global Routes', desc: 'Matching across hundreds of international flight routes.' },
-              { icon: <Star size={24} color="var(--color-primary)" />, title: 'Trusted Reviews', desc: 'Honest ratings help you choose the right flight buddy.' },
+              { icon: <DollarSign size={24} color="var(--color-primary)" />, title: 'Make cross-border pet travel more affordable', desc: 'Reduce the cost of international pet transportation, making it affordable.' },
+              { icon: <Heart size={24} color="var(--color-primary)" />, title: 'Simplify overseas pet adoption', desc: 'Make adopting pets from abroad easier, connecting loving homes with animals in need worldwide.' },
+              { icon: <ShieldCheck size={24} color="var(--color-primary)" />, title: 'Reduce pet abandonment due to relocation', desc: 'More flexible travel solutions help pet owners keep their companions instead of giving them up when moving.' },
+              { icon: <Globe2 size={24} color="var(--color-primary)" />, title: 'Build a global community of animal lovers', desc: 'A trusted network where people who care about animals can connect, support each other, and make a difference together.' },
             ].map(f => (
               <div key={f.title} className="card" style={{ padding: '2rem 1.5rem', textAlign: 'center', background: 'var(--color-bg)', border: '1px solid var(--color-border)', transition: 'transform 0.2s' }}
                 onMouseOver={e => e.currentTarget.style.transform = 'translateY(-4px)'}
@@ -293,18 +293,14 @@ const Home = ({ session }) => {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
             {[
-              { emoji: '🐾', title: 'Make a real difference', desc: 'Give a pet the calm, caring companion they need on a stressful journey.' },
-              { emoji: '🤝', title: 'Build community', desc: 'Connect with fellow animal lovers and pet-friendly travellers worldwide.' },
-              { emoji: '⭐', title: 'Earn recognition', desc: 'Build your reputation with reviews from grateful pet owners.' },
-              { emoji: '💰', title: 'Compensation possible', desc: 'Many owners offer to cover meals or transport fees. Always agree terms in advance.' },
-              { emoji: '🌍', title: 'Travel with purpose', desc: 'Turn your existing trip into a meaningful act of kindness.' },
-              { emoji: '✏️', title: 'Your choice, always', desc: 'You decide the route, date, and whether to accept each request.' },
+              { title: 'Make a real difference', desc: 'Turn your existing trip into a meaningful act of kindness. Rewrite the destiny of a living soul.' },
+              { title: 'Build community', desc: 'Connect with animal lovers and pet-friendly travelers worldwide.' },
+              { title: 'Environmental Impact', desc: 'Eliminate the need for additional dedicated transport, reduce unnecessary journeys and overall carbon emissions.' }
             ].map(b => (
               <div key={b.title} className="card" style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start', padding: '1.25rem' }}>
-                <span style={{ fontSize: '1.5rem' }}>{b.emoji}</span>
                 <div>
-                  <div style={{ fontWeight: 700, fontSize: '0.9rem', marginBottom: '0.3rem' }}>{b.title}</div>
-                  <div style={{ color: 'var(--color-text-muted)', fontSize: '0.82rem', lineHeight: 1.5 }}>{b.desc}</div>
+                  <div style={{ fontWeight: 700, fontSize: '1rem', marginBottom: '0.3rem', color: 'var(--color-primary-dark)' }}>{b.title}</div>
+                  <div style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', lineHeight: 1.6 }}>{b.desc}</div>
                 </div>
               </div>
             ))}
@@ -316,7 +312,6 @@ const Home = ({ session }) => {
       <section id="disclaimer" style={{ padding: '2.5rem 0' }}>
         <div className="container">
           <div className="disclaimer-box">
-            <span style={{ fontSize: '1.2rem' }}>⚠️</span>
             <div>
               <strong style={{ color: 'var(--color-error)', fontSize: '0.9rem' }}>Disclaimer</strong>
               <p style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', marginTop: '0.3rem', lineHeight: 1.6 }}>

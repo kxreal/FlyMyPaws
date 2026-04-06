@@ -58,18 +58,18 @@ const HowItWorks = () => {
           
           <div style={{ display: 'grid', gap: '2rem' }}>
             <div>
-              <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>⏱️ 1. Extra Time at the Airport</h3>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>1. Extra Time at the Airport</h3>
               <p style={{ color: 'var(--color-text)', lineHeight: 1.6 }}>Traveling with a pet may require a little additional time at the airport. You may need to arrive earlier than usual to complete check-in procedures, meet the pet owner or rescue representative, and ensure all documents and travel arrangements are properly handled. Planning for extra time can help reduce stress and avoid last-minute issues before your flight.</p>
             </div>
             
             <div>
-              <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>🛂 2. Possible Questions from Authorities</h3>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>2. Possible Questions from Authorities</h3>
               <p style={{ color: 'var(--color-text)', lineHeight: 1.6, marginBottom: '1rem' }}>When traveling across borders with an animal, airport staff or customs officers may ask questions about the pet’s background and travel purpose. This is a normal procedure, as authorities need to ensure that all animal transport complies with import regulations and that there are no concerns related to illegal animal trade.</p>
               <p style={{ color: 'var(--color-text)', lineHeight: 1.6 }}>As a volunteer, you may be asked basic questions such as where the pet is coming from, who the owner or rescue organization is, and who will receive the pet at the destination. Having the relevant documents and contact information prepared can help the process go smoothly.</p>
             </div>
             
             <div>
-              <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>🤝 3. Verify and Communicate</h3>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>3. Verify and Communicate</h3>
               <p style={{ color: 'var(--color-text)', lineHeight: 1.6, marginBottom: '1.5rem' }}>Trust is at the heart of everything we do at Flymypaws. For the safety of everyone involved, we strongly encourage both pet owners and volunteers to take the time to verify each other's identity and intentions before any arrangement is confirmed.</p>
               
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>

@@ -17,7 +17,13 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
 import OurStory from './pages/OurStory';
 import HowItWorks from './pages/HowItWorks';
-import { Moon, Sun, User, MessageCircle, Home as HomeIcon, PawPrint, Plane, LogOut } from 'lucide-react';
+import { Moon, Sun, User, MessageCircle, Home as HomeIcon, PawPrint, Plane, LogOut, BookOpen, HelpCircle } from 'lucide-react';
+const BrandLogo = ({ size = 'default' }) => {
+  const h = size === 'small' ? 44 : 56;
+  return (
+    <img src="/logo-full.png" alt="Fly My Paws" style={{ height: h, width: 'auto', display: 'block', flexShrink: 0 }} />
+  );
+};
 
 const App = () => {
   const [session, setSession] = useState(null);
@@ -122,9 +128,8 @@ const App = () => {
       <nav className="navbar">
         <div className="container" style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem' }}>
           {/* Logo */}
-          <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', textDecoration: 'none', flexShrink: 0 }}>
-            <span style={{ fontSize: '1.4rem', lineHeight: 1 }}>🐾</span>
-            <span className="logo-text">FlyMyPaws</span>
+          <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', textDecoration: 'none', flexShrink: 0, color: 'var(--color-primary)' }}>
+            <BrandLogo />
           </Link>
 
           {/* Nav Links - Bottom on mobile */}
@@ -135,10 +140,12 @@ const App = () => {
               <span className="short-text">Home</span>
             </NavLink>
             <NavLink to="/how-it-works" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>
+              <HelpCircle size={20} className="nav-icon" />
               <span className="full-text">How It Works</span>
               <span className="short-text">Guide</span>
             </NavLink>
             <NavLink to="/our-story" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>
+              <BookOpen size={20} className="nav-icon" />
               <span className="full-text">Our Story</span>
               <span className="short-text">Story</span>
             </NavLink>
@@ -212,17 +219,8 @@ const App = () => {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '2rem' }}>
             {/* Brand */}
             <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.5rem' }}>
-                <span style={{ fontSize: '1.2rem' }}>🐾</span>
-                <span style={{
-                  fontWeight: 800,
-                  fontSize: '1rem',
-                  letterSpacing: '-0.03em',
-                  background: 'linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                }}>FlyMyPaws</span>
+              <div style={{ marginBottom: '0.5rem' }}>
+                <BrandLogo size="small" />
               </div>
               <p style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', maxWidth: '220px', lineHeight: '1.5' }}>
                 Connecting pet owners with caring flight volunteers. Every pet deserves a safe journey.
