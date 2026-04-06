@@ -19,21 +19,9 @@ import OurStory from './pages/OurStory';
 import HowItWorks from './pages/HowItWorks';
 import { Moon, Sun, User, MessageCircle, Home as HomeIcon, PawPrint, Plane, LogOut, BookOpen, HelpCircle } from 'lucide-react';
 const BrandLogo = ({ size = 'default' }) => {
-  const w = size === 'small' ? 110 : 130;
-  const fontSize = size === 'small' ? '0.8rem' : '0.95rem';
+  const h = size === 'small' ? 52 : 56;
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: w, gap: '0', lineHeight: 1 }}>
-      <span style={{
-        fontFamily: "'Outfit', sans-serif",
-        fontWeight: 300,
-        fontSize,
-        letterSpacing: '0.22em',
-        color: 'var(--color-primary-dark)',
-        textTransform: 'uppercase',
-        whiteSpace: 'nowrap',
-      }}>Fly My Paws</span>
-      <img src="/logo.png" alt="FlyMyPaws" style={{ width: '100%', height: 'auto', display: 'block' }} />
-    </div>
+    <img src="/logo-full.png" alt="Fly My Paws" style={{ height: h, width: 'auto', display: 'block', flexShrink: 0 }} />
   );
 };
 
