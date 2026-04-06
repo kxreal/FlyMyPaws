@@ -2,8 +2,8 @@ import React from 'react';
 
 const OurStory = () => {
   return (
-    <div style={{ padding: '3rem 0', background: 'var(--color-bg)' }}>
-      <div className="container" style={{ maxWidth: '800px' }}>
+    <div className="watermark-bg" style={{ padding: '3rem 0', minHeight: '100vh' }}>
+      <div className="container" style={{ maxWidth: '800px', position: 'relative', zIndex: 10 }}>
         
         <section style={{ marginBottom: '2rem' }}>
           <div style={{ textAlign: 'center', marginBottom: '2rem' }}>

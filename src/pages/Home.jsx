@@ -186,7 +186,7 @@ const Home = ({ session }) => {
       </section>
 
       {/* ── Pets Needing Help Feed ── */}
-      <section style={{ padding: '3.5rem 0' }}>
+      <section className="watermark-bg" style={{ padding: '3.5rem 0' }}>
         <div className="container">
           <div className="flex-between mb-2" style={{ marginBottom: '1.25rem' }}>
             <div>
@@ -212,7 +212,7 @@ const Home = ({ session }) => {
 
       {/* ── Volunteer Feed ── */}
       {volPosts.length > 0 && (
-        <section style={{ padding: '0 0 3.5rem' }}>
+        <section className="watermark-bg" style={{ padding: '0 0 3.5rem' }}>
           <div className="container">
             <div className="flex-between mb-2" style={{ marginBottom: '1.25rem' }}>
               <div>

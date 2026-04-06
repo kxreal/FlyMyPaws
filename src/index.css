@@ -450,6 +450,29 @@ a:hover { color: var(--color-primary-dark); }
   }
 }
 
+/* ── Tiled Watermark Background ── */
+.watermark-bg {
+  position: relative;
+  z-index: 1;
+}
+.watermark-bg::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url('/watermark.jpg');
+  background-repeat: repeat;
+  background-size: 150px;
+  opacity: 0.04;
+  z-index: -1;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+.dark .watermark-bg::before {
+  mix-blend-mode: screen;
+  opacity: 0.02;
+  filter: invert(1);
+}
+
 /* ── Benefits section background ── */
 .benefits-bg { background: linear-gradient(180deg, var(--color-primary-bg) 0%, var(--color-primary-bg-deep) 100%); }
 .dark .benefits-bg { background: linear-gradient(180deg, #1E1410 0%, #2A1A14 100%); }

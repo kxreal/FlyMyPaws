@@ -2,8 +2,8 @@ import React from 'react';
 
 const HowItWorks = () => {
   return (
-    <div style={{ padding: '3rem 0', background: 'var(--color-bg)' }}>
-      <div className="container" style={{ maxWidth: '800px' }}>
+    <div className="watermark-bg" style={{ padding: '3rem 0', minHeight: '100vh' }}>
+      <div className="container" style={{ maxWidth: '800px', position: 'relative', zIndex: 10 }}>
         
         {/* ── Meaning of Travel ── */}
         <section style={{ marginBottom: '4rem' }}>
