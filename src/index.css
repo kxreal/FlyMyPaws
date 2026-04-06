@@ -1,22 +1,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  /* Warm Coffee Palette */
-  --color-primary: #FBB3AE;
-  --color-primary-light: #FFD9D6;
-  --color-primary-dark: #E3908A;
-  --color-primary-bg: #FFF3F2;
+  /* Warm Orange Palette — layered */
+  --color-primary: #FF7043;
+  --color-primary-light: #FF9A76;
+  --color-primary-lighter: #FFCBB8;
+  --color-primary-dark: #E65100;
+  --color-primary-bg: #FFF3EF;
+  --color-primary-bg-deep: #FFE8E0;
 
-  --color-secondary: #8B7355;
-  --color-secondary-light: #A79075;
+  --color-accent: #FF8A65;
+  --color-accent-soft: #FFAB91;
 
-  --color-background: #FAF7F2;
+  --color-secondary: #5D8C7B;
+  --color-secondary-light: #81B5A1;
+
+  --color-background: #FFFAF7;
   --color-surface: #FFFFFF;
-  --color-border: #E5DCD1;
+  --color-surface-warm: #FFF8F5;
+  --color-border: #F0E6DE;
+  --color-border-strong: #E0D0C4;
 
-  --color-text-main: #5E4639;
-  --color-text-sub: #7A6255;
-  --color-text-muted: #9E897F;
+  --color-text-main: #3E2723;
+  --color-text-sub: #5D4037;
+  --color-text-muted: #8D6E63;
 
   --color-success: #10B981;
   --color-warning: #F59E0B;
@@ -52,13 +59,16 @@
 
 /* Dark Mode */
 .dark {
-  --color-background: #111827;
-  --color-surface: #1F2937;
-  --color-border: #374151;
+  --color-background: #1A1210;
+  --color-surface: #2A1F1A;
+  --color-surface-warm: #33261E;
+  --color-border: #4A3830;
+  --color-border-strong: #5A4538;
   --color-text-main: #F9FAFB;
-  --color-text-sub: #E5E7EB;
-  --color-text-muted: #9CA3AF;
+  --color-text-sub: #E5E0DC;
+  --color-text-muted: #A89890;
   --color-primary-bg: #3D1A10;
+  --color-primary-bg-deep: #4D2418;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -101,12 +111,12 @@ a:hover { color: var(--color-primary-dark); }
 }
 
 .btn-primary {
-  background-color: var(--color-primary);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
   color: #fff;
-  box-shadow: 0 4px 14px rgba(255,112,67,0.32);
+  box-shadow: 0 4px 14px rgba(255,112,67,0.28);
 }
 .btn-primary:hover {
-  background-color: var(--color-primary-dark);
+  background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
   transform: translateY(-1px);
   box-shadow: 0 6px 20px rgba(255,112,67,0.38);
   color: #fff;
@@ -441,8 +451,8 @@ a:hover { color: var(--color-primary-dark); }
 }
 
 /* ── Benefits section background ── */
-.benefits-bg { background: #FFF3EF; }
-.dark .benefits-bg { background: #1E1410; }
+.benefits-bg { background: linear-gradient(180deg, var(--color-primary-bg) 0%, var(--color-primary-bg-deep) 100%); }
+.dark .benefits-bg { background: linear-gradient(180deg, #1E1410 0%, #2A1A14 100%); }
 
 /* ── Mission Section ── */
 .mission-grid {
