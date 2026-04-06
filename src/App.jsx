@@ -19,21 +19,29 @@ import OurStory from './pages/OurStory';
 import HowItWorks from './pages/HowItWorks';
 import { Moon, Sun, User, MessageCircle, Home as HomeIcon, PawPrint, Plane, LogOut, BookOpen, HelpCircle } from 'lucide-react';
 const BrandLogo = () => (
-  <svg width="68" height="34" viewBox="0 0 68 34" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
-    <path d="M3 4h62v8a5 5 0 0 0 0 10v8H3v-8a5 5 0 0 0 0-10V4z" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-    <line x1="13" y1="6" x2="13" y2="28" strokeWidth="2.5" strokeDasharray="3 4" strokeLinecap="round" />
-    <g transform="translate(22, 5) scale(0.8)">
-       <path d="M12 21c-2.4 0-4.6-1.5-5.5-3.8-.3-.8.2-1.6 1-1.6 1.7 0 3-1.3 3-3 0-1.7 1.3-3 3-3s3 1.3 3 3c0 1.7 1.3 3 3 3 .8 0 1.3.8 1 1.6C16.6 19.5 14.4 21 12 21Z" strokeWidth="2" strokeLinecap="round"/>
-       <path d="M16 8.5c0 1.4-1.3 2.5-3 2.5s-3-1.1-3-2.5 1.3-3.5 3-3.5 3 2.1 3 3.5Z" strokeWidth="2.5" strokeLinecap="round"/>
-       <path d="M9.5 7.5c0 1.4-1.2 2.5-2.8 2.5s-2.8-1.1-2.8-2.5 1.2-3.3 2.7-3.3 2.8 1.9 2.8 3.3Z" strokeWidth="2.5" strokeLinecap="round"/>
-       <path d="M20 7.5c0 1.4-1.2 2.5-2.8 2.5S14.5 8.9 14.5 7.5 15.7 4.2 17.2 4.2 20 6.1 20 7.5Z" strokeWidth="2.5" strokeLinecap="round"/>
+  <svg width="100" height="48" viewBox="0 0 100 48" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
+    {/* Title text */}
+    <text x="50" y="12" textAnchor="middle" fill="currentColor" fontFamily="inherit" fontWeight="700" fontSize="11" letterSpacing="0.5">FlyMyPaws</text>
+    {/* Ticket body */}
+    <rect x="6" y="16" width="88" height="28" rx="5" ry="5" stroke="currentColor" strokeWidth="2" fill="none" />
+    {/* Ticket notches — two small semicircles on each long side */}
+    <circle cx="6" cy="30" r="4" fill="var(--color-background)" stroke="currentColor" strokeWidth="2" />
+    <circle cx="94" cy="30" r="4" fill="var(--color-background)" stroke="currentColor" strokeWidth="2" />
+    {/* Dashed tear line */}
+    <line x1="22" y1="19" x2="22" y2="41" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3 3" strokeLinecap="round" />
+    {/* ── Paw print (centred in ticket) ── */}
+    <g fill="currentColor" stroke="none" transform="translate(42, 20)">
+      {/* Main pad */}
+      <ellipse cx="11" cy="17" rx="6" ry="4.5" />
+      {/* Toes */}
+      <ellipse cx="5"  cy="10" rx="2.8" ry="3.5" transform="rotate(-10 5 10)" />
+      <ellipse cx="11" cy="8"  rx="2.5" ry="3.2" />
+      <ellipse cx="17" cy="10" rx="2.8" ry="3.5" transform="rotate(10 17 10)" />
     </g>
-    <g transform="translate(48, 6) scale(0.55)">
-      <path d="M17.8 19.2 16 11l-3.5 3.5C11 16 9 16 7.5 14.5c-1.5-1.5-1.5-3.5 0-5l3.5-3.5L2.8 4.2c-.3-.3-.5-.7-.5-1.1s.2-.8.5-1.1c.6-.6 1.5-.6 2.1 0l14.3 14.3c.3.3.5.7.5 1.1s-.2.8-.5 1.1c-.6.6-1.5.6-2.1 0Z" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M22 2 12 12" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+    {/* ── Plane silhouette (top-right of ticket) ── */}
+    <g fill="currentColor" stroke="none" transform="translate(73, 18)">
+      <path d="M16 6.5 10.5 4l1-3.5L8 3 5 0 4 2l2 2H3L1.5 3 1 4.5 3 5l3-0.5L8.5 7 5 9.5l1 1.5 4-2 1.5 3.5 1.5-1L11.5 8l5-1.5z" />
     </g>
-    <line x1="46" y1="21" x2="57" y2="21" strokeWidth="2.5" strokeLinecap="round" />
-    <line x1="46" y1="25" x2="52" y2="25" strokeWidth="2.5" strokeLinecap="round" />
   </svg>
 );
 
@@ -142,7 +150,6 @@ const App = () => {
           {/* Logo */}
           <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', textDecoration: 'none', flexShrink: 0, color: 'var(--color-primary)' }}>
             <BrandLogo />
-            <span className="logo-text">FlyMyPaws</span>
           </Link>
 
           {/* Nav Links - Bottom on mobile */}
