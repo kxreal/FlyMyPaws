@@ -18,32 +18,23 @@ import TermsOfService from './pages/TermsOfService';
 import OurStory from './pages/OurStory';
 import HowItWorks from './pages/HowItWorks';
 import { Moon, Sun, User, MessageCircle, Home as HomeIcon, PawPrint, Plane, LogOut, BookOpen, HelpCircle } from 'lucide-react';
-const BrandLogo = () => (
-  <svg width="100" height="48" viewBox="0 0 100 48" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
-    {/* Title text */}
-    <text x="50" y="12" textAnchor="middle" fill="currentColor" fontFamily="inherit" fontWeight="700" fontSize="11" letterSpacing="0.5">FlyMyPaws</text>
-    {/* Ticket body */}
-    <rect x="6" y="16" width="88" height="28" rx="5" ry="5" stroke="currentColor" strokeWidth="2" fill="none" />
-    {/* Ticket notches — two small semicircles on each long side */}
-    <circle cx="6" cy="30" r="4" fill="var(--color-background)" stroke="currentColor" strokeWidth="2" />
-    <circle cx="94" cy="30" r="4" fill="var(--color-background)" stroke="currentColor" strokeWidth="2" />
-    {/* Dashed tear line */}
-    <line x1="22" y1="19" x2="22" y2="41" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3 3" strokeLinecap="round" />
-    {/* ── Paw print (centred in ticket) ── */}
-    <g fill="currentColor" stroke="none" transform="translate(42, 20)">
-      {/* Main pad */}
-      <ellipse cx="11" cy="17" rx="6" ry="4.5" />
-      {/* Toes */}
-      <ellipse cx="5"  cy="10" rx="2.8" ry="3.5" transform="rotate(-10 5 10)" />
-      <ellipse cx="11" cy="8"  rx="2.5" ry="3.2" />
-      <ellipse cx="17" cy="10" rx="2.8" ry="3.5" transform="rotate(10 17 10)" />
-    </g>
-    {/* ── Plane silhouette (top-right of ticket) ── */}
-    <g fill="currentColor" stroke="none" transform="translate(73, 18)">
-      <path d="M16 6.5 10.5 4l1-3.5L8 3 5 0 4 2l2 2H3L1.5 3 1 4.5 3 5l3-0.5L8.5 7 5 9.5l1 1.5 4-2 1.5 3.5 1.5-1L11.5 8l5-1.5z" />
-    </g>
-  </svg>
-);
+const BrandLogo = ({ size = 'default' }) => {
+  const imgH = size === 'small' ? 32 : 38;
+  const fontSize = size === 'small' ? '0.85rem' : '1rem';
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0', lineHeight: 1 }}>
+      <span style={{
+        fontFamily: "'Outfit', sans-serif",
+        fontWeight: 300,
+        fontSize,
+        letterSpacing: '0.18em',
+        color: 'var(--color-primary-dark)',
+        textTransform: 'uppercase',
+      }}>Fly My Paws</span>
+      <img src="/logo.png" alt="FlyMyPaws" style={{ height: imgH, width: 'auto', display: 'block' }} />
+    </div>
+  );
+};
 
 const App = () => {
   const [session, setSession] = useState(null);
@@ -239,17 +230,8 @@ const App = () => {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '2rem' }}>
             {/* Brand */}
             <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.5rem', color: 'var(--color-primary)' }}>
-                <BrandLogo />
-                <span style={{
-                  fontWeight: 800,
-                  fontSize: '1rem',
-                  letterSpacing: '-0.03em',
-                  background: 'linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                }}>FlyMyPaws</span>
+              <div style={{ marginBottom: '0.5rem' }}>
+                <BrandLogo size="small" />
               </div>
               <p style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', maxWidth: '220px', lineHeight: '1.5' }}>
                 Connecting pet owners with caring flight volunteers. Every pet deserves a safe journey.
