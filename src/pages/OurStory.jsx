@@ -32,15 +32,15 @@ const OurStory = () => {
             <p style={{ marginBottom: '1.5rem' }}>People often say you should never lock eyes with a stray dog. And it’s true — but not because they might hurt you. It’s because once you see the purity and hope in their eyes, you may find it impossible to walk away. The quiet expectations of an animal are something your heart cannot bear to betray.</p>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '2.5rem', marginTop: '1.5rem' }}>
-              <img src="/bubu/3.jpg" alt="Bubu smiling" style={{ width: '100%', borderRadius: '1rem', objectFit: 'cover', aspectRatio: '4/3' }} />
+              <img src="/bubu/5.jpg" alt="Bubu smiling" style={{ width: '100%', borderRadius: '1rem', objectFit: 'cover', aspectRatio: '4/3' }} />
               <img src="/bubu/4.jpg" alt="Bubu waiting" style={{ width: '100%', borderRadius: '1rem', objectFit: 'cover', aspectRatio: '4/3' }} />
             </div>
             <p style={{ marginBottom: '1.5rem', fontWeight: 'bold', fontStyle: 'italic' }}>Because of one look, I made a decision: I would give her a home.</p>
             <p style={{ marginBottom: '1.5rem' }}>After returning to the UK, I contacted <a href="https://www.phuket-dog-resort.com/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-primary-dark)', fontWeight: 600, textDecoration: 'underline' }}>Phuket Dog Resort Co., Ltd</a>, a company with extensive experience in animal rescue and relocation, to help locate her and arrange a health check. The blood test results revealed something heartbreaking — she was actually very ill. She had blood parasites, and without treatment she likely would not have survived another month.</p>
             
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '2.5rem', marginTop: '1.5rem' }}>
-              <img src="/bubu/5.jpg" alt="Bubu health check" style={{ width: '100%', borderRadius: '1rem', objectFit: 'cover', aspectRatio: '4/3' }} />
-              <img src="/bubu/6.jpg" alt="Bubu health check" style={{ width: '100%', borderRadius: '1rem', objectFit: 'cover', aspectRatio: '4/3' }} />
+              <img src="/bubu/3.jpg" alt="Bubu health check" style={{ width: '100%', borderRadius: '1rem', objectFit: 'cover', aspectRatio: '3/4' }} />
+              <img src="/bubu/6.jpg" alt="Bubu health check" style={{ width: '100%', borderRadius: '1rem', objectFit: 'cover', aspectRatio: '3/4' }} />
             </div>
             <p style={{ marginBottom: '1.5rem' }}>The team also helped confirm that she truly had no owner. Treatment began immediately. They arranged her care, her accommodation, and the long, complicated process of preparing all the documents required for international travel.</p>
             <p style={{ marginBottom: '1.5rem', fontWeight: 'bold', fontSize: '1.2rem', color: 'var(--color-primary)' }}>At the same time, we gave her a name - Bubu.</p>
