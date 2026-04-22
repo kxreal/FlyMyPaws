@@ -246,7 +246,7 @@ const Home = ({ session }) => {
               Built for pets who can't travel alone
             </h2>
 
-            <div style={{ color: 'var(--color-text)', fontSize: '1.1rem', lineHeight: 1.8, textAlign: 'left', background: 'var(--color-bg)', padding: '2.5rem', borderRadius: '1.5rem', border: '1px solid var(--color-border)' }}>
+            <div className="watermark-bg" style={{ color: 'var(--color-text)', fontSize: '1.1rem', lineHeight: 1.8, textAlign: 'left', background: 'var(--color-bg)', padding: '2.5rem', borderRadius: '1.5rem', border: '1px solid var(--color-border)' }}>
               <p style={{ marginBottom: '1.5rem' }}>
                 The world is more connected than ever — and yet, for millions of rescued animals, borders remain the greatest barrier between them and the loving home they deserve.
               </p>
@@ -315,7 +315,7 @@ const Home = ({ session }) => {
             <div>
               <strong style={{ color: 'var(--color-error)', fontSize: '0.9rem' }}>Disclaimer</strong>
               <p style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', marginTop: '0.3rem', lineHeight: 1.6 }}>
-                FlyMyPaws is a matching platform only. We do not handle physical transportation, fees,
+                We are not pet travel agency. FlyMyPaws is a matching platform only. We do not handle physical transportation, fees,
                 or legal documentation required for animal travel. Pet owners must ensure all import/export
                 regulations are met. Volunteers should never be asked to pay fees out of pocket.
               </p>
