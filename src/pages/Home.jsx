@@ -160,7 +160,7 @@ const Home = ({ session }) => {
           </h1>
 
           <p className="hero-desc" style={{ color: 'var(--color-text-sub)', fontSize: '1.05rem', maxWidth: '480px', marginBottom: '2rem', lineHeight: 1.7 }}>
-            FlyMyPaws connects passionate flight volunteers with rescues and relocating families.
+            We are not a pet travel agency. FlyMyPaws connects passionate flight volunteers with rescues and relocating families.
             Help a stray or a beloved pet travel safely across the globe.
           </p>
 
@@ -315,7 +315,7 @@ const Home = ({ session }) => {
             <div>
               <strong style={{ color: 'var(--color-error)', fontSize: '0.9rem' }}>Disclaimer</strong>
               <p style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', marginTop: '0.3rem', lineHeight: 1.6 }}>
-                We are not pet travel agency. FlyMyPaws is a matching platform only. We do not handle physical transportation, fees,
+                FlyMyPaws is a matching platform only. We do not handle physical transportation, fees,
                 or legal documentation required for animal travel. Pet owners must ensure all import/export
                 regulations are met. Volunteers should never be asked to pay fees out of pocket.
               </p>
